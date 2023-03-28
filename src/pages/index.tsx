@@ -3,9 +3,17 @@ import styles from "@/styles/Home.module.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
 import { useState } from "react";
+import Link from "next/link";
+import { AiFillLock } from "react-icons/ai";
+
+import localFont from "next/font/local";
+
+// If loading a variable font, you don't need to specify the font weight
+const climateCrisis = localFont({ src: "./ClimateCrisis.ttf" });
 
 export default function Home() {
   const [captchaSolved, setCaptchaSolved] = useState(false);
+  const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
 
   const handleSubmit = async (event: any) => {
     try {
@@ -31,6 +39,7 @@ export default function Home() {
       const response = await fetch(endpoint, options);
 
       const result = await response.json();
+      setCreatedPhraseCode(result.data[0].shortcode);
       alert(`Is this your full name: ${JSON.stringify(result)}`);
     } catch (error: any) {
       alert(error?.message || "Something went wrong");
@@ -44,40 +53,57 @@ export default function Home() {
         <title>Captcharoo</title>
         <meta name="description" content="Bot or not?" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />{" "}
       </Head>
-      <main className={styles.main}>
-        <div className={styles.center}>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="phrase">Phrase: </label>
-            <input
-              required
-              maxLength={20}
-              type="text"
-              id="phrase"
-              name="phrase"
-            />
-            <br />
-            <br />
-            <label htmlFor="name">Name: </label>
-            <input type="text" id="name" name="name" />
-            <br />
-            <br />
+      <main className={`${styles.main}`}>
+        {!createdPhraseCode && (
+          <>
+            <div className={`${climateCrisis.className} ${styles.title}`}>
+              Lock your secret phrase
+            </div>
+            <form className={styles.formContainer} onSubmit={handleSubmit}>
+              <input
+                className={styles.textField}
+                required
+                maxLength={20}
+                type="text"
+                id="phrase"
+                name="phrase"
+                placeholder="Your phrase"
+                autoComplete="off"
+              />
+              <input
+                className={styles.textField}
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name (optional)"
+                autoComplete="off"
+              />
 
-            <ReCAPTCHA
-              asyncScriptOnLoad={() => console.log("load")}
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-              onChange={(code) =>
-                testCaptcha(code, () => setCaptchaSolved(true))
-              }
-            />
-            <br />
-
-            <button type="submit" disabled={!captchaSolved}>
-              Submit
-            </button>
-          </form>
-        </div>
+              <ReCAPTCHA
+                asyncScriptOnLoad={() => console.log("load")}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={(code) =>
+                  testCaptcha(code, () => setCaptchaSolved(true))
+                }
+              />
+              <button
+                className={`${climateCrisis.className} ${styles.submitButton}`}
+                type="submit"
+                disabled={!captchaSolved}>
+                <AiFillLock />
+                LOCK
+              </button>
+            </form>
+          </>
+        )}
+        {createdPhraseCode && (
+          <div>
+            Your link is created! <br />
+            <Link href={"/" + createdPhraseCode}>Share this link.</Link>
+          </div>
+        )}
       </main>
     </>
   );

@@ -1,47 +1,59 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 6rem;
   min-height: 100vh;
 }
 
-.center {
+.formContainer {
+  background-color: white;
+  padding: 1.5rem;
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.textField {
+  min-height: 48px;
+  border-radius: 0;
+  border: 1px solid black;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.textField::placeholder {
+  opacity: 0.8;
+  font-weight: 400;
+}
+.textField:focus {
+  outline: none;
+  border: 2px solid black;
+}
+
+.submitButton {
+  height: 72px;
+  border-radius: 0px;
+  border: none;
+  background-color: #FEBC38;
+  font-size: 32px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  position: relative;
-  padding: 4rem 0;
+  align-items:center;
+  gap: 8px;
+  transition: padding-left 300ms;
+}
+.submitButton:hover {
+  padding-left: 8px;
 }
 
-/* Mobile */
-@media (max-width: 700px) {
-  .content {
-    padding: 4rem;
-  }
-
-  .center {
-    padding: 8rem 0 6rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .vercelLogo {
-    filter: invert(1);
-  }
-
-  .logo,
-  .thirteen img {
-    filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-  }
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+.submitButton:disabled {
+  background-color: #FFDC97;
 }
