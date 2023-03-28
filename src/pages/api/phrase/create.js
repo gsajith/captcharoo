@@ -21,8 +21,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ data: "Phrase not found." });
     }
 
+    // Log the CREATE call
+    const newDate = new Date();
+    const dateString =
+      newDate.toDateString() + " " + newDate.toLocaleTimeString("en-US");
+    console.log(
+      `[${dateString}] Called CREATE with phrase ${phrase} and name ${name}`
+    );
+
     try {
-      const { data, error } = await supabase
+      const { data: phrase, error } = await supabase
         .from("phrases")
         .insert([
           {
@@ -34,17 +42,17 @@ export default async function handler(req, res) {
         ])
         .select();
 
-      console.log(data, error);
+      // Success
       if (!error) {
         // Return 200 if everything is successful
-        return res.status(200).json({ data: `${data}` });
+        return res.status(200).json({ data: phrase });
       }
 
+      // Some other error
       return res.status(422).json({
         message: "Unprocessable request.",
       });
     } catch (error) {
-      console.log(error);
       return res.status(422).json({ message: "Something went wrong" });
     }
   }

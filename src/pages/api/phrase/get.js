@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       // Success
       if (!error) {
         // Return 200 if everything is successful
-        return res.status(200).json({ data: phrases });
+        return res.status(200).json({ data: phrases[0] });
       }
 
       // Some other error

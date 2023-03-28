@@ -36,8 +36,8 @@ const CaptchaPage = () => {
 
       if (response.ok) {
         // alert(`Got ${JSON.stringify(result.data)}`);
-        setPhrase(result.data[0].phrase);
-        setName(result.data[0].name);
+        setPhrase(result.data.phrase);
+        setName(result.data.name);
       } else {
         alert("Invalid URL");
       }
