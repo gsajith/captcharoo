@@ -22,7 +22,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/api/register.js"
+    "src/pages/api/register.js",
+    "src/pages/index.tsx"
   ],
   "exclude": ["node_modules"]
 }

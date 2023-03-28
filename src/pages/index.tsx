@@ -45,7 +45,7 @@ export default function Home() {
 
       const result = await response.json();
       setCreatedPhraseCode(result.data[0].shortcode);
-      alert(`Is this your full name: ${JSON.stringify(result)}`);
+      // alert(`Is this your full name: ${JSON.stringify(result)}`);
     } catch (error: any) {
       alert(error?.message || "Something went wrong");
     } finally {
@@ -76,12 +76,21 @@ export default function Home() {
       </Head>
       <main className={`${styles.main}`}>
         <Toast message={"Invalid link provided."} shown={errorShown} />
-        {!createdPhraseCode && (
-          <>
-            <div className={`${climateCrisis.className} ${styles.title}`}>
-              Lock your secret phrase
+        <>
+          <div className={styles.homePageContainer}>
+            <div className={styles.titleContainer}>
+              <div className={`${climateCrisis.className} ${styles.title}`}>
+                Store your secret phrase
+              </div>
             </div>
-            <form className={styles.formContainer} onSubmit={handleSubmit}>
+            <form
+              className={styles.formContainer}
+              onSubmit={handleSubmit}
+              style={{
+                maxHeight: createdPhraseCode ? "0px" : "800px",
+                padding: createdPhraseCode ? "0px" : "default",
+                opacity: createdPhraseCode ? 0 : 1,
+              }}>
               <input
                 className={styles.textField}
                 required
@@ -103,7 +112,7 @@ export default function Home() {
 
               <ReCAPTCHA
                 ref={recaptcha}
-                asyncScriptOnLoad={() => console.log("load")}
+                asyncScriptOnLoad={() => console.log("Captcha loaded")}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
                 onChange={(code) =>
                   testCaptcha(code, () => setCaptchaSolved(true))
@@ -117,14 +126,15 @@ export default function Home() {
                 LOCK
               </button>
             </form>
-          </>
-        )}
-        {createdPhraseCode && (
-          <div className={styles.formContainer}>
-            Your link is created! <br />
-            <Link href={"/" + createdPhraseCode}>Share this link.</Link>
+            {createdPhraseCode && (
+              <div className={styles.formContainer}>
+                Your link is created! <br />
+                <Link href={"/" + createdPhraseCode}>Share this link.</Link>
+              </div>
+            )}
+            <div className={styles.bottomContainer} />
           </div>
-        )}
+        </>
       </main>
     </>
   );
