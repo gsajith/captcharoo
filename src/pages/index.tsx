@@ -1,19 +1,24 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import ReCAPTCHA from "react-google-recaptcha";
-import { testCaptcha } from "../utils";
-import { useState } from "react";
+import { testCaptcha } from "@/utils";
+import { createRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { AiFillLock } from "react-icons/ai";
+import { useRouter } from "next/router";
+import Toast from "@/components/Toast";
 
 import localFont from "next/font/local";
 
 // If loading a variable font, you don't need to specify the font weight
-const climateCrisis = localFont({ src: "./ClimateCrisis.ttf" });
+const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 export default function Home() {
   const [captchaSolved, setCaptchaSolved] = useState(false);
   const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
+  const recaptcha = createRef<ReCAPTCHA>();
+  const router = useRouter();
+  const [errorShown, setErrorShown] = useState(false);
 
   const handleSubmit = async (event: any) => {
     try {
@@ -47,6 +52,20 @@ export default function Home() {
     }
   };
 
+  const triggerError = () => {
+    setErrorShown(true);
+    setTimeout(() => {
+      setErrorShown(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    recaptcha?.current?.reset();
+    if (router.query.error) {
+      triggerError();
+    }
+  }, [router.query.error]);
+
   return (
     <>
       <Head>
@@ -56,6 +75,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />{" "}
       </Head>
       <main className={`${styles.main}`}>
+        <Toast message={"Invalid link provided."} shown={errorShown} />
         {!createdPhraseCode && (
           <>
             <div className={`${climateCrisis.className} ${styles.title}`}>
@@ -82,6 +102,7 @@ export default function Home() {
               />
 
               <ReCAPTCHA
+                ref={recaptcha}
                 asyncScriptOnLoad={() => console.log("load")}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
                 onChange={(code) =>
@@ -99,7 +120,7 @@ export default function Home() {
           </>
         )}
         {createdPhraseCode && (
-          <div>
+          <div className={styles.formContainer}>
             Your link is created! <br />
             <Link href={"/" + createdPhraseCode}>Share this link.</Link>
           </div>

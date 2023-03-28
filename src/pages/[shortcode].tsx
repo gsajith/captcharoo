@@ -2,13 +2,14 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useCallback, useEffect, useState } from "react";
+import { createRef, useCallback, useEffect, useState } from "react";
 import { testCaptcha } from "../utils";
 
 // TODO: SSR Title for this page based on name of person who created it
 
 const CaptchaPage = () => {
   const router = useRouter();
+  const recaptcha = createRef<ReCAPTCHA>();
   const { shortcode } = router.query;
 
   const [phrase, setPhrase] = useState(null);
@@ -39,7 +40,9 @@ const CaptchaPage = () => {
         setPhrase(result.data.phrase);
         setName(result.data.name);
       } else {
-        alert("Invalid URL");
+        // Redirect to home and show error
+        recaptcha?.current?.reset();
+        router.push("/?error=invalid");
       }
     } catch (error: any) {
       alert(error?.message || "Something went wrong");
@@ -74,6 +77,7 @@ const CaptchaPage = () => {
             transitionTimingFunction: "ease-in-out",
           }}>
           <ReCAPTCHA
+            ref={recaptcha}
             asyncScriptOnLoad={() => console.log("load")}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
             onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}

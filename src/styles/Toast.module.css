@@ -1,0 +1,6 @@
+.toastContainer {
+  position: absolute;
+  background-color: white;
+  padding: 1.5rem;
+  transition: bottom 500ms;
+}
