@@ -15,7 +15,8 @@
 }
 
 .title {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size:20px;
 }
 
 .textField {
@@ -28,10 +29,10 @@
 }
 
 .textField::placeholder {
-  opacity: 0.8;
+  opacity: 0.6;
   font-weight: 400;
 }
-.textField:focus {
+.textField:focus,.textField:hover {
   outline: none;
   border: 2px solid black;
 }
@@ -42,16 +43,16 @@
   border: none;
   background-color: #FEBC38;
   font-size: 32px;
-  cursor: pointer;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items:center;
   gap: 8px;
-  transition: padding-left 300ms;
+  transition: padding-left 150ms;
 }
-.submitButton:hover {
+.submitButton:enabled:hover {
   padding-left: 8px;
+  cursor: pointer;
 }
 
 .submitButton:disabled {
