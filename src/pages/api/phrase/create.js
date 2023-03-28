@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     );
 
     try {
-      const { data: phrase, error } = await supabase
+      const { data: createdPhrase, error } = await supabase
         .from("phrases")
         .insert([
           {
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       // Success
       if (!error) {
         // Return 200 if everything is successful
-        return res.status(200).json({ data: phrase });
+        return res.status(200).json({ data: createdPhrase });
       }
 
       // Some other error

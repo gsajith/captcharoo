@@ -47,10 +47,6 @@ const CaptchaPage = () => {
     }
   }, [shortcode, captchaSolved]);
 
-  const captchaSolvedCallback = async () => {
-    setCaptchaSolved(true);
-  };
-
   // On initial load, do callback with no phrase fetched
   useEffect(() => {
     if (shortcode) {
@@ -80,7 +76,7 @@ const CaptchaPage = () => {
           <ReCAPTCHA
             asyncScriptOnLoad={() => console.log("load")}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-            onChange={(code) => testCaptcha(code, captchaSolvedCallback)}
+            onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
           />
         </div>
       </main>

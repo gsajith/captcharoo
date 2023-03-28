@@ -2,44 +2,40 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
+import { useState } from "react";
 
 export default function Home() {
-  // Handles the submit event on form submit.
+  const [captchaSolved, setCaptchaSolved] = useState(false);
+
   const handleSubmit = async (event: any) => {
-    // Stop the form from submitting and refreshing the page.
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    // Get data from the form.
-    const data = {
-      phrase: event.target.phrase.value,
-      name: event.target.name.value,
-    };
+      const data = {
+        phrase: event.target.phrase.value,
+        name: event.target.name.value,
+      };
 
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
+      const JSONdata = JSON.stringify(data);
 
-    // API endpoint where we send form data.
-    const endpoint = "/api/phrase/create";
+      const endpoint = "/api/phrase/create";
 
-    // Form the request for sending data to the server.
-    const options = {
-      // The method is POST because we are sending data.
-      method: "POST",
-      // Tell the server we're sending JSON.
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
-    };
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSONdata,
+      };
 
-    // Send the form data to our forms API on Vercel and get a response.
-    const response = await fetch(endpoint, options);
+      const response = await fetch(endpoint, options);
 
-    // Get the response data from server as JSON.
-    // If server returns the name submitted, that means the form works.
-    const result = await response.json();
-    alert(`Is this your full name: ${JSON.stringify(result)}`);
+      const result = await response.json();
+      alert(`Is this your full name: ${JSON.stringify(result)}`);
+    } catch (error: any) {
+      alert(error?.message || "Something went wrong");
+    } finally {
+    }
   };
 
   return (
@@ -71,11 +67,15 @@ export default function Home() {
             <ReCAPTCHA
               asyncScriptOnLoad={() => console.log("load")}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-              onChange={(code) => testCaptcha(code, () => alert("ok"))}
+              onChange={(code) =>
+                testCaptcha(code, () => setCaptchaSolved(true))
+              }
             />
             <br />
 
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={!captchaSolved}>
+              Submit
+            </button>
           </form>
         </div>
       </main>
