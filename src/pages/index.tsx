@@ -1,29 +1,9 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import { useEffect } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
+import ReCAPTCHA from "react-google-recaptcha";
+import { testCaptcha } from "../utils";
 
 export default function Home() {
-  useEffect(() => {
-    const fetchData = async () => {
-      const endpoint = "/api/getAllRows";
-      const options = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const response = await fetch(endpoint, options);
-      const result = await response.json();
-      alert(`Got ${JSON.stringify(result.data)}`);
-    };
-    fetchData();
-  }, []);
-
   // Handles the submit event on form submit.
   const handleSubmit = async (event: any) => {
     // Stop the form from submitting and refreshing the page.
@@ -39,7 +19,7 @@ export default function Home() {
     const JSONdata = JSON.stringify(data);
 
     // API endpoint where we send form data.
-    const endpoint = "/api/createPhraseRow";
+    const endpoint = "/api/phrase/create";
 
     // Form the request for sending data to the server.
     const options = {
@@ -73,7 +53,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.center}>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="phrase">Phrase:</label>
+            <label htmlFor="phrase">Phrase: </label>
             <input
               required
               maxLength={20}
@@ -81,8 +61,20 @@ export default function Home() {
               id="phrase"
               name="phrase"
             />
-            <label htmlFor="name">Name:</label>
+            <br />
+            <br />
+            <label htmlFor="name">Name: </label>
             <input type="text" id="name" name="name" />
+            <br />
+            <br />
+
+            <ReCAPTCHA
+              asyncScriptOnLoad={() => console.log("load")}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              onChange={(code) => testCaptcha(code, () => alert("ok"))}
+            />
+            <br />
+
             <button type="submit">Submit</button>
           </form>
         </div>

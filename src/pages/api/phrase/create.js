@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { generateShortcode } from "../../utils";
+import { generateShortcode } from "../../../utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -10,11 +10,12 @@ export default async function handler(req, res) {
   const { body, method } = req;
 
   if (method === "POST") {
-    // Get the ID of this row
+    // Get the params for this row
     const { phrase, name } = body;
 
-    // Guard clause checks for first and last name,
-    // and returns early if they are not found
+    // Guard clause checks for phrase
+    // and returns early if not found
+    // TODO: Validate Phrase and Name here
     if (!body.phrase) {
       // Sends a HTTP bad request error code
       return res.status(400).json({ data: "Phrase not found." });
@@ -27,12 +28,13 @@ export default async function handler(req, res) {
           {
             phrase: phrase,
             name: name || "",
-            user_id: "06739769-9d66-46b7-b06a-3f8c6b4a13af",
+            user_id: process.env.SUPABASE_USER_ID,
             shortcode: generateShortcode(),
           },
         ])
         .select();
 
+      console.log(data, error);
       if (!error) {
         // Return 200 if everything is successful
         return res.status(200).json({ data: `${data}` });

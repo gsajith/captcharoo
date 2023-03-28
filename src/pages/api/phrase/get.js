@@ -8,32 +8,40 @@ const supabase = createClient(
 export default async function handler(req, res) {
   const { body, method } = req;
 
-  // Get the ID of this row
-  const { id } = body;
-
   if (method === "POST") {
+    // Get the shortcode of this row
+    const { shortcode, includePhrase } = body;
+
+    // Log the GET call
+    const newDate = new Date();
+    const dateString =
+      newDate.toDateString() + " " + newDate.toLocaleTimeString("en-US");
+    console.log(
+      `[${dateString}] Called GET with code ${shortcode} and includePhrase ${includePhrase}`
+    );
+
     try {
       let { data: phrases, error } = await supabase
         .from("phrases")
-        .select("phrase, name")
-        .eq("shortcode", id);
+        .select("name" + (includePhrase ? ", phrase" : ""))
+        .eq("shortcode", shortcode);
 
+      // Invalid shortcode or malformed URL
       if (!phrases || typeof phrases === "undefined" || phrases.length === 0) {
         return res.status(422).json({ message: "Invalid URL" });
       }
 
+      // Success
       if (!error) {
-        // Replace this with the API that will save the data received
-        // to your backend
         // Return 200 if everything is successful
         return res.status(200).json({ data: phrases });
       }
 
+      // Some other error
       return res.status(422).json({
         message: "Unprocessable request.",
       });
     } catch (error) {
-      console.log(error);
       return res.status(422).json({ message: "Something went wrong" });
     }
   }
