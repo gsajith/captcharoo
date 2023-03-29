@@ -12,15 +12,6 @@ import localFont from "next/font/local";
 import TextField from "../components/TextField";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
-const duration = 600;
-
-const defaultStyle = {
-  transition: `opacity ${
-    duration / 4
-  }ms ease-in-out, max-height ${duration}ms ease-in-out, padding ${duration}ms ease-in-out`,
-  opacity: 0,
-};
-
 const transitionStyles = {
   entering: { opacity: 1 },
   entered: { opacity: 1 },
@@ -129,12 +120,11 @@ export default function Home() {
               <Transition
                 nodeRef={nodeRef}
                 in={!createdPhraseCode}
-                timeout={duration}>
+                timeout={600}>
                 {(state) => (
                   <div
                     ref={nodeRef}
                     style={{
-                      ...defaultStyle,
                       ...transitionStyles[state],
                     }}
                     className={styles.formContainer}>

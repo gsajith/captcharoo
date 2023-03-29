@@ -5,8 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
 
-// TODO: SSR Title for this page based on name of person who created it
-
 const CaptchaPage = () => {
   const router = useRouter();
   const { shortcode } = router.query;
@@ -31,11 +29,9 @@ const CaptchaPage = () => {
       };
 
       const response = await fetch(endpoint, options);
-
       const result = await response.json();
 
       if (response.ok) {
-        // alert(`Got ${JSON.stringify(result.data)}`);
         setPhrase(result.data.phrase);
         setName(result.data.name);
       } else {
@@ -48,7 +44,7 @@ const CaptchaPage = () => {
     }
   }, [shortcode, captchaSolved, router]);
 
-  // On initial load, do callback with no phrase fetched
+  // On initial load, do fetch with no phrase included
   useEffect(() => {
     if (shortcode) {
       fetchRow();
@@ -67,19 +63,11 @@ const CaptchaPage = () => {
         <div className={styles.center}>
           {shortcode}:{phrase} {name}
         </div>
-        <div
-          style={{
-            width: captchaSolved ? 0 : 300,
-            overflow: "hidden",
-            transition: "width 750ms",
-            transitionTimingFunction: "ease-in-out",
-          }}>
-          <ReCAPTCHA
-            asyncScriptOnLoad={() => console.log("load")}
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-            onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
-          />
-        </div>
+        <ReCAPTCHA
+          asyncScriptOnLoad={() => console.log("load")}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+          onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
+        />
       </main>
     </>
   );
