@@ -20,6 +20,19 @@
       56px 54px 65px rgba(0, 0, 0, 0.1);
 }
 
+.overlayWrapper {
+  position: relative;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  z-index: 9;
+  transition: opacity 300ms ease-in-out;
+}
+
 .formContainer {
   padding: 1.5rem;
   display: flex;

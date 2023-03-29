@@ -10,8 +10,6 @@ import Toast from "@/components/Toast";
 import { Transition } from "react-transition-group";
 
 import localFont from "next/font/local";
-
-// If loading a variable font, you don't need to specify the font weight
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const duration = 600;
@@ -31,6 +29,7 @@ const transitionStyles = {
 };
 
 export default function Home() {
+  const [captchaLoaded, setCaptchaLoaded] = useState(false);
   const [captchaSolved, setCaptchaSolved] = useState(false);
   const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
   const recaptcha = createRef<ReCAPTCHA>();
@@ -98,63 +97,76 @@ export default function Home() {
           <div className={styles.homePageContainer}>
             <div className={styles.titleContainer}>
               <div className={`${climateCrisis.className} ${styles.title}`}>
-                Store your secret phrase
+                {!createdPhraseCode
+                  ? "Store your secret phrase"
+                  : "Your phrase is stored"}
               </div>
             </div>
 
-            <Transition
-              nodeRef={nodeRef}
-              in={!createdPhraseCode}
-              timeout={duration}>
-              {(state) => (
-                <form
-                  ref={nodeRef}
-                  style={{
-                    ...defaultStyle,
-                    ...transitionStyles[state],
-                  }}
-                  className={styles.formContainer}
-                  onSubmit={handleSubmit}>
-                  <input
-                    className={styles.textField}
-                    required
-                    maxLength={20}
-                    type="text"
-                    id="phrase"
-                    name="phrase"
-                    placeholder="Your phrase"
-                    autoComplete="off"
-                  />
-                  <input
-                    className={styles.textField}
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Your name (optional)"
-                    autoComplete="off"
-                  />
+            <div className={styles.overlayWrapper}>
+              <div
+                className={styles.overlay}
+                style={{
+                  opacity: captchaLoaded ? 0 : 1,
+                  pointerEvents: captchaLoaded ? "none" : "all",
+                }}></div>
+              <Transition
+                nodeRef={nodeRef}
+                in={!createdPhraseCode}
+                timeout={duration}>
+                {(state) => (
+                  <form
+                    ref={nodeRef}
+                    style={{
+                      ...defaultStyle,
+                      ...transitionStyles[state],
+                    }}
+                    className={styles.formContainer}
+                    onSubmit={handleSubmit}>
+                    <input
+                      className={styles.textField}
+                      required
+                      maxLength={20}
+                      type="text"
+                      id="phrase"
+                      name="phrase"
+                      placeholder="Your phrase"
+                      autoComplete="off"
+                    />
+                    <input
+                      className={styles.textField}
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Your name (optional)"
+                      autoComplete="off"
+                    />
 
-                  <ReCAPTCHA
-                    ref={recaptcha}
-                    asyncScriptOnLoad={() => console.log("Captcha loaded")}
-                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                    onChange={(code) =>
-                      testCaptcha(code, () => setCaptchaSolved(true))
-                    }
-                  />
-                  <button
-                    className={`${climateCrisis.className} ${styles.submitButton}`}
-                    type="submit"
-                    disabled={captchaSolved}>
-                    <AiFillLock />
-                    LOCK
-                  </button>
-                </form>
-              )}
-            </Transition>
+                    <ReCAPTCHA
+                      ref={recaptcha}
+                      asyncScriptOnLoad={() =>
+                        setTimeout(() => {
+                          setCaptchaLoaded(true);
+                        }, 100)
+                      }
+                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                      onChange={(code) =>
+                        testCaptcha(code, () => setCaptchaSolved(true))
+                      }
+                    />
+                    <button
+                      className={`${climateCrisis.className} ${styles.submitButton}`}
+                      type="submit"
+                      disabled={captchaSolved}>
+                      <AiFillLock />
+                      LOCK
+                    </button>
+                  </form>
+                )}
+              </Transition>
+            </div>
             {createdPhraseCode && (
               <div className={styles.formContainer}>
-                Your link is created! <br />
                 <Link href={"/" + createdPhraseCode}>Share this link.</Link>
               </div>
             )}
