@@ -149,6 +149,7 @@ export default function Home() {
                     <TextField
                       name="name"
                       placeholder="Your name (optional)"
+                      maxLength={40}
                       value={nameValue}
                       onChange={(e) => setNameValue(e.target.value)}
                     />
