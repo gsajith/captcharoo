@@ -2,15 +2,14 @@ import Toast from "@/components/Toast";
 import styles from "@/styles/Home.module.css";
 import { testCaptcha } from "@/utils";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { createRef, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
 import { Transition } from "react-transition-group";
 
-import localFont from "next/font/local";
 import TextField from "@/components/TextField";
+import localFont from "next/font/local";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const duration = 600;

@@ -9,7 +9,6 @@ import { testCaptcha } from "../utils";
 
 const CaptchaPage = () => {
   const router = useRouter();
-  const recaptcha = createRef<ReCAPTCHA>();
   const { shortcode } = router.query;
 
   const [phrase, setPhrase] = useState(null);
@@ -41,14 +40,13 @@ const CaptchaPage = () => {
         setName(result.data.name);
       } else {
         // Redirect to home and show error
-        recaptcha?.current?.reset();
         router.push("/?error=invalid");
       }
     } catch (error: any) {
       alert(error?.message || "Something went wrong");
     } finally {
     }
-  }, [shortcode, captchaSolved]);
+  }, [shortcode, captchaSolved, router]);
 
   // On initial load, do callback with no phrase fetched
   useEffect(() => {
@@ -77,7 +75,6 @@ const CaptchaPage = () => {
             transitionTimingFunction: "ease-in-out",
           }}>
           <ReCAPTCHA
-            ref={recaptcha}
             asyncScriptOnLoad={() => console.log("load")}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
             onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
