@@ -1,12 +1,5 @@
 import fetch from "node-fetch";
 
-const sleep = () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 350);
-  });
-
 export default async function handler(req, res) {
   const { body, method } = req;
 
@@ -45,7 +38,6 @@ export default async function handler(req, res) {
       if (captchaValidation.success) {
         // Replace this with the API that will save the data received
         // to your backend
-        await sleep();
         // Return 200 if everything is successful
         return res.status(200).send("OK");
       }
