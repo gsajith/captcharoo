@@ -95,19 +95,25 @@ export const getServerSideProps = async ({ params }) => {
       }),
     };
 
+    console.log("here");
     const response = await fetch(endpoint, options);
+    console.log("here2");
     const result = await response.json();
+    console.log("here3");
 
     if (response.ok) {
+      console.log("here4");
       return {
         props: { name: result.data.name },
       };
     } else {
+      console.log("here5");
       return {
         props: {},
       };
     }
   } catch (error) {
+    console.log("here6", error);
     return {
       props: {},
     };
