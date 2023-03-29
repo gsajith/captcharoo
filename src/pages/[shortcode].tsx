@@ -1,8 +1,8 @@
-import Head from "next/head";
 import styles from "@/styles/Home.module.css";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useCallback, useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
 
 // TODO: SSR Title for this page based on name of person who created it

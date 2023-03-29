@@ -6,11 +6,18 @@ type ToastProps = {
 };
 
 const Toast = ({ message, shown }: ToastProps) => {
+  const fullMessage = message.includes("Invalid") ? (
+    <>
+      <b>Error:</b> {message}
+    </>
+  ) : (
+    <>{message}</>
+  );
   return (
     <div
       className={styles.toastContainer}
       style={{ bottom: shown ? "3rem" : "-200px" }}>
-      <b>Error:</b> {message}
+      {fullMessage}
     </div>
   );
 };

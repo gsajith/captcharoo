@@ -1,15 +1,16 @@
-import Head from "next/head";
-import styles from "@/styles/Home.module.css";
-import ReCAPTCHA from "react-google-recaptcha";
-import { testCaptcha } from "@/utils";
-import { createRef, useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { AiFillLock } from "react-icons/ai";
-import { useRouter } from "next/router";
 import Toast from "@/components/Toast";
+import styles from "@/styles/Home.module.css";
+import { testCaptcha } from "@/utils";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { createRef, useCallback, useEffect, useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
 import { Transition } from "react-transition-group";
 
 import localFont from "next/font/local";
+import TextField from "@/components/TextField";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const duration = 600;
@@ -31,53 +32,69 @@ const transitionStyles = {
 export default function Home() {
   const [captchaLoaded, setCaptchaLoaded] = useState(false);
   const [captchaSolved, setCaptchaSolved] = useState(false);
+  const [phraseValue, setPhraseValue] = useState("");
+  const [nameValue, setNameValue] = useState("");
   const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
-  const recaptcha = createRef<ReCAPTCHA>();
   const nodeRef = useRef(null);
   const router = useRouter();
-  const [errorShown, setErrorShown] = useState(false);
+  const showToastRef = useRef<NodeJS.Timeout>();
+  const [toastShown, setToastShown] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
-  const handleSubmit = async (event: any) => {
-    try {
-      event.preventDefault();
+  const handleSubmit = useCallback(
+    async (event: any) => {
+      try {
+        event.preventDefault();
 
-      const data = {
-        phrase: event.target.phrase.value,
-        name: event.target.name.value,
-      };
+        const data = {
+          phrase: phraseValue,
+          name: nameValue,
+        };
 
-      const JSONdata = JSON.stringify(data);
+        const JSONdata = JSON.stringify(data);
 
-      const endpoint = "/api/phrase/create";
+        const endpoint = "/api/phrase/create";
 
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSONdata,
-      };
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSONdata,
+        };
 
-      const response = await fetch(endpoint, options);
+        const response = await fetch(endpoint, options);
 
-      const result = await response.json();
-      setCreatedPhraseCode(result.data[0].shortcode);
-      // alert(`Is this your full name: ${JSON.stringify(result)}`);
-    } catch (error: any) {
-      alert(error?.message || "Something went wrong");
-    } finally {
-    }
-  };
+        const result = await response.json();
+        setCreatedPhraseCode(result.data[0].shortcode);
+        // alert(`Is this your full name: ${JSON.stringify(result)}`);
+      } catch (error: any) {
+        alert(error?.message || "Something went wrong");
+      } finally {
+      }
+    },
+    [phraseValue, nameValue]
+  );
 
   const triggerError = () => {
-    setErrorShown(true);
-    setTimeout(() => {
-      setErrorShown(false);
+    clearTimeout(showToastRef.current);
+    setToastMessage("Invalid link provided.");
+    setToastShown(true);
+    showToastRef.current = setTimeout(() => {
+      setToastShown(false);
+    }, 3000);
+  };
+
+  const triggerCopied = () => {
+    clearTimeout(showToastRef.current);
+    setToastMessage("Link copied!");
+    setToastShown(true);
+    showToastRef.current = setTimeout(() => {
+      setToastShown(false);
     }, 3000);
   };
 
   useEffect(() => {
-    recaptcha?.current?.reset();
     if (router.query.error) {
       triggerError();
     }
@@ -92,7 +109,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />{" "}
       </Head>
       <main className={`${styles.main}`}>
-        <Toast message={"Invalid link provided."} shown={errorShown} />
+        <Toast message={toastMessage} shown={toastShown} />
         <>
           <div className={styles.homePageContainer}>
             <div className={styles.titleContainer}>
@@ -115,35 +132,29 @@ export default function Home() {
                 in={!createdPhraseCode}
                 timeout={duration}>
                 {(state) => (
-                  <form
+                  <div
                     ref={nodeRef}
                     style={{
                       ...defaultStyle,
                       ...transitionStyles[state],
                     }}
-                    className={styles.formContainer}
-                    onSubmit={handleSubmit}>
-                    <input
-                      className={styles.textField}
-                      required
-                      maxLength={20}
-                      type="text"
-                      id="phrase"
+                    className={styles.formContainer}>
+                    <TextField
                       name="phrase"
                       placeholder="Your phrase"
-                      autoComplete="off"
+                      maxLength={20}
+                      required
+                      value={phraseValue}
+                      onChange={(e: any) => setPhraseValue(e.target.value)}
                     />
-                    <input
-                      className={styles.textField}
-                      type="text"
-                      id="name"
+                    <TextField
                       name="name"
                       placeholder="Your name (optional)"
-                      autoComplete="off"
+                      value={nameValue}
+                      onChange={(e: any) => setNameValue(e.target.value)}
                     />
 
                     <ReCAPTCHA
-                      ref={recaptcha}
                       asyncScriptOnLoad={() =>
                         setTimeout(() => {
                           setCaptchaLoaded(true);
@@ -154,23 +165,46 @@ export default function Home() {
                         testCaptcha(code, () => setCaptchaSolved(true))
                       }
                     />
-                    <button
-                      className={`${climateCrisis.className} ${styles.submitButton}`}
-                      type="submit"
-                      disabled={captchaSolved}>
-                      <AiFillLock />
-                      LOCK
-                    </button>
-                  </form>
+                  </div>
                 )}
               </Transition>
             </div>
             {createdPhraseCode && (
               <div className={styles.formContainer}>
-                <Link href={"/" + createdPhraseCode}>Share this link.</Link>
+                <div
+                  className={styles.linkContainer}
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      window.location.href + "" + createdPhraseCode
+                    );
+                    triggerCopied();
+                  }}>
+                  <div>{window.location.href + "" + createdPhraseCode}</div>
+                  <div className={styles.linkButton}>
+                    <AiOutlineCopy />
+                  </div>
+                </div>
               </div>
             )}
-            <div className={styles.bottomContainer} />
+            <button
+              className={`${climateCrisis.className} ${styles.submitButton} ${
+                createdPhraseCode && styles.noInteract
+              }`}
+              onClick={handleSubmit}
+              disabled={!captchaSolved}>
+              {!createdPhraseCode ? (
+                <>
+                  <AiFillUnlock className={styles.unlock} />
+                  <AiFillLock className={styles.lock} />
+                  LOCK
+                </>
+              ) : (
+                <>
+                  <AiFillLock />
+                  LOCKED
+                </>
+              )}
+            </button>
           </div>
         </>
       </main>
