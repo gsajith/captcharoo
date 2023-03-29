@@ -3,13 +3,20 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
+import {
+  AiFillLock,
+  AiFillUnlock,
+  AiOutlineCopy,
+  AiOutlineRetweet,
+} from "react-icons/ai";
 import { Transition } from "react-transition-group";
 import Toast from "../components/Toast";
 import styles from "../styles/Home.module.css";
 
 import localFont from "next/font/local";
 import TextField from "../components/TextField";
+import IconTextField from "../components/IconTextField";
+import { generateSlug } from "random-word-slugs";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const transitionStyles = {
@@ -128,10 +135,15 @@ export default function Home() {
                       ...transitionStyles[state],
                     }}
                     className={styles.formContainer}>
-                    <TextField
+                    <IconTextField
+                      icon={
+                        <AiOutlineRetweet
+                          onClick={() => setPhraseValue(generateSlug())}
+                        />
+                      }
                       name="phrase"
                       placeholder="Your phrase"
-                      maxLength={20}
+                      maxLength={60}
                       required
                       value={phraseValue}
                       onChange={(e) => setPhraseValue(e.target.value)}

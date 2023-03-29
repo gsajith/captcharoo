@@ -67,19 +67,52 @@
   width: 100%;
 }
 
-.textField::placeholder {
+.textField::placeholder,.iconTextField>input::placeholder {
   opacity: 0.6;
   font-weight: 400;
 }
 
-.textField:focus {
+.textField:focus, .iconTextField:focus-within {
   outline: none;
   border: 2px solid black !important;
 }
 
-.textField:hover {
+.textField:hover,.iconTextField:hover {
   outline: none;
   border: 1.5px solid rgba(0, 0, 0, .5)
+}
+
+.iconTextField {
+  min-height: 48px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+  overflow: hidden;
+  position: relative;
+}
+
+.iconTextField>input {
+  border: none;
+  outline: none;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  width: 100%;
+}
+
+.iconTextField svg {
+  position: absolute;
+  right: 0;
+  scale: 2;
+  translate: -16px 14px;
+  color: rgba(0,0,0,.4);
+  background-color: white;
+}
+
+.iconTextField svg:hover {
+  cursor: pointer;
+  color: black;
 }
 
 .submitButton {

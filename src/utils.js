@@ -1,3 +1,4 @@
+import { generateSlug } from "random-word-slugs";
 import { customAlphabet } from "nanoid";
 const nanoid = customAlphabet("1234567890abcdef", 10);
 
@@ -29,6 +30,13 @@ export const testCaptcha = async (captchaCode, callback) => {
   }
 
   console.log("Captcha value:", captchaCode);
+};
+
+export const randomSlug = () => {
+  return generateSlug(2, {
+    format: "kebab",
+    partsOfSpeech: ["adjective", "noun"],
+  });
 };
 
 export default generateShortcode;
