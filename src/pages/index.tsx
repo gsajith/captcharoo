@@ -2,21 +2,39 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "@/utils";
-import { createRef, useEffect, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AiFillLock } from "react-icons/ai";
 import { useRouter } from "next/router";
 import Toast from "@/components/Toast";
+import { Transition } from "react-transition-group";
 
 import localFont from "next/font/local";
 
 // If loading a variable font, you don't need to specify the font weight
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
+const duration = 600;
+
+const defaultStyle = {
+  transition: `opacity ${
+    duration / 4
+  }ms ease-in-out, max-height ${duration}ms ease-in-out, padding ${duration}ms ease-in-out`,
+  opacity: 0,
+};
+
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0, maxHeight: 0, padding: 0 },
+  exited: { opacity: 0, maxHeight: 0, padding: 0 },
+};
+
 export default function Home() {
   const [captchaSolved, setCaptchaSolved] = useState(false);
   const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
   const recaptcha = createRef<ReCAPTCHA>();
+  const nodeRef = useRef(null);
   const router = useRouter();
   const [errorShown, setErrorShown] = useState(false);
 
@@ -83,49 +101,57 @@ export default function Home() {
                 Store your secret phrase
               </div>
             </div>
-            <form
-              className={styles.formContainer}
-              onSubmit={handleSubmit}
-              style={{
-                maxHeight: createdPhraseCode ? "0px" : "800px",
-                padding: createdPhraseCode ? "0px" : "default",
-                opacity: createdPhraseCode ? 0 : 1,
-              }}>
-              <input
-                className={styles.textField}
-                required
-                maxLength={20}
-                type="text"
-                id="phrase"
-                name="phrase"
-                placeholder="Your phrase"
-                autoComplete="off"
-              />
-              <input
-                className={styles.textField}
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Your name (optional)"
-                autoComplete="off"
-              />
 
-              <ReCAPTCHA
-                ref={recaptcha}
-                asyncScriptOnLoad={() => console.log("Captcha loaded")}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                onChange={(code) =>
-                  testCaptcha(code, () => setCaptchaSolved(true))
-                }
-              />
-              <button
-                className={`${climateCrisis.className} ${styles.submitButton}`}
-                type="submit"
-                disabled={!captchaSolved}>
-                <AiFillLock />
-                LOCK
-              </button>
-            </form>
+            <Transition
+              nodeRef={nodeRef}
+              in={!createdPhraseCode}
+              timeout={duration}>
+              {(state) => (
+                <form
+                  ref={nodeRef}
+                  style={{
+                    ...defaultStyle,
+                    ...transitionStyles[state],
+                  }}
+                  className={styles.formContainer}
+                  onSubmit={handleSubmit}>
+                  <input
+                    className={styles.textField}
+                    required
+                    maxLength={20}
+                    type="text"
+                    id="phrase"
+                    name="phrase"
+                    placeholder="Your phrase"
+                    autoComplete="off"
+                  />
+                  <input
+                    className={styles.textField}
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Your name (optional)"
+                    autoComplete="off"
+                  />
+
+                  <ReCAPTCHA
+                    ref={recaptcha}
+                    asyncScriptOnLoad={() => console.log("Captcha loaded")}
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                    onChange={(code) =>
+                      testCaptcha(code, () => setCaptchaSolved(true))
+                    }
+                  />
+                  <button
+                    className={`${climateCrisis.className} ${styles.submitButton}`}
+                    type="submit"
+                    disabled={captchaSolved}>
+                    <AiFillLock />
+                    LOCK
+                  </button>
+                </form>
+              )}
+            </Transition>
             {createdPhraseCode && (
               <div className={styles.formContainer}>
                 Your link is created! <br />
