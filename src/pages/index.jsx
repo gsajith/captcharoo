@@ -1,6 +1,7 @@
-import { testCaptcha } from "../utils";
+import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { generateSlug } from "random-word-slugs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
@@ -10,13 +11,11 @@ import {
   AiOutlineRetweet,
 } from "react-icons/ai";
 import { Transition } from "react-transition-group";
+import IconTextField from "../components/IconTextField";
+import TextField from "../components/TextField";
 import Toast from "../components/Toast";
 import styles from "../styles/Home.module.css";
-
-import localFont from "next/font/local";
-import TextField from "../components/TextField";
-import IconTextField from "../components/IconTextField";
-import { generateSlug } from "random-word-slugs";
+import { testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const transitionStyles = {
@@ -30,7 +29,6 @@ export default function Home() {
   const router = useRouter();
   const nodeRef = useRef();
   const showToastRef = useRef();
-  const [captchaLoaded, setCaptchaLoaded] = useState(false);
   const [captchaSolved, setCaptchaSolved] = useState(false);
   const [createdPhraseCode, setCreatedPhraseCode] = useState(false);
   const [phraseValue, setPhraseValue] = useState("");
@@ -98,108 +96,100 @@ export default function Home() {
       </Head>
       <main className={`${styles.main}`}>
         <Toast message={toastMessage} shown={toastShown} />
-        <>
-          <div className={styles.homePageContainer}>
-            <div className={styles.titleContainer}>
-              <div className={`${climateCrisis.className} ${styles.title}`}>
-                {!createdPhraseCode
-                  ? "Store your secret phrase"
-                  : "Your phrase is stored"}
-              </div>
+        <div className={styles.homePageContainer}>
+          <div className={styles.titleContainer}>
+            <div className={`${climateCrisis.className} ${styles.title}`}>
+              {!createdPhraseCode
+                ? "Store your secret phrase"
+                : "Your phrase is stored"}
             </div>
+          </div>
 
-            <div className={styles.overlayWrapper}>
+          <Transition nodeRef={nodeRef} in={!createdPhraseCode} timeout={600}>
+            {(state) => (
               <div
-                className={styles.overlay}
+                ref={nodeRef}
                 style={{
-                  opacity: captchaLoaded ? 0 : 1,
-                  pointerEvents: captchaLoaded ? "none" : "all",
-                }}></div>
-              <Transition
-                nodeRef={nodeRef}
-                in={!createdPhraseCode}
-                timeout={600}>
-                {(state) => (
-                  <div
-                    ref={nodeRef}
-                    style={{
-                      ...transitionStyles[state],
-                    }}
-                    className={styles.formContainer}>
-                    <IconTextField
-                      icon={
-                        <AiOutlineRetweet
-                          onClick={() => setPhraseValue(generateSlug())}
-                        />
-                      }
-                      name="phrase"
-                      placeholder="Your phrase"
-                      maxLength={60}
-                      required
-                      value={phraseValue}
-                      onChange={(e) => setPhraseValue(e.target.value)}
+                  ...transitionStyles[state],
+                }}
+                className={styles.formContainer}>
+                <IconTextField
+                  icon={
+                    <AiOutlineRetweet
+                      onClick={() => setPhraseValue(generateSlug())}
                     />
-                    <TextField
-                      name="name"
-                      placeholder="Your name (optional)"
-                      maxLength={40}
-                      value={nameValue}
-                      onChange={(e) => setNameValue(e.target.value)}
-                    />
+                  }
+                  name="phrase"
+                  placeholder="Your phrase"
+                  maxLength={60}
+                  required
+                  value={phraseValue}
+                  onChange={(e) => setPhraseValue(e.target.value)}
+                />
+                <TextField
+                  name="name"
+                  placeholder="Your name (optional)"
+                  maxLength={40}
+                  value={nameValue}
+                  onChange={(e) => setNameValue(e.target.value)}
+                />
 
-                    <ReCAPTCHA
-                      asyncScriptOnLoad={() =>
-                        setTimeout(() => {
-                          setCaptchaLoaded(true);
-                        }, 100)
-                      }
-                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                      onChange={(code) =>
-                        testCaptcha(code, () => setCaptchaSolved(true))
-                      }
-                    />
-                  </div>
-                )}
-              </Transition>
-            </div>
-            {createdPhraseCode && (
-              <div className={styles.formContainer}>
-                <div
-                  className={styles.linkContainer}
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      window.location.href + "" + createdPhraseCode
-                    );
-                    triggerToast("Link copied!");
-                  }}>
-                  <div>{window.location.href + "" + createdPhraseCode}</div>
-                  <div className={styles.linkButton}>
-                    <AiOutlineCopy />
-                  </div>
-                </div>
+                <ReCAPTCHA
+                  asyncScriptOnLoad={() => console.log("Captcha loaded")}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                  onChange={(code) =>
+                    testCaptcha(code, () => setCaptchaSolved(true))
+                  }
+                />
               </div>
             )}
-            <button
-              className={`${climateCrisis.className} ${styles.submitButton} ${
-                createdPhraseCode && styles.noInteract
-              }`}
-              onClick={handleSubmit}
-              disabled={!captchaSolved}>
-              {!createdPhraseCode ? (
-                <>
-                  <AiFillUnlock className={styles.unlock} />
-                  <AiFillLock className={styles.lock} />
-                  LOCK
-                </>
-              ) : (
-                <>
-                  <AiFillLock />
-                  LOCKED
-                </>
-              )}
-            </button>
-          </div>
-        </>
+          </Transition>
+          <Transition nodeRef={nodeRef} in={createdPhraseCode} timeout={600}>
+            {(state) =>
+              createdPhraseCode && (
+                <div
+                  ref={nodeRef}
+                  style={{
+                    ...transitionStyles[state],
+                  }}
+                  className={styles.formContainer}>
+                  <div
+                    className={styles.linkContainer}
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        window.location.href + "" + createdPhraseCode
+                      );
+                      triggerToast("Link copied!");
+                    }}>
+                    <div>{window.location.href + "" + createdPhraseCode}</div>
+                    <div className={styles.linkButton}>
+                      <AiOutlineCopy />
+                    </div>
+                  </div>
+                </div>
+              )
+            }
+          </Transition>
+          <button
+            className={`${climateCrisis.className} ${styles.submitButton} ${
+              createdPhraseCode && styles.noInteract
+            }`}
+            onClick={handleSubmit}
+            disabled={!captchaSolved}>
+            {!createdPhraseCode ? (
+              <>
+                <AiFillUnlock className={styles.unlock} />
+                <AiFillLock className={styles.lock} />
+                LOCK
+              </>
+            ) : (
+              <>
+                <AiFillLock />
+                LOCKED
+              </>
+            )}
+          </button>
+        </div>
       </main>
     </>
   );
