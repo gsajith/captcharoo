@@ -6,6 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
 
 const CaptchaPage = (props) => {
+  console.log(props);
   const router = useRouter();
   const { shortcode } = router.query;
 
