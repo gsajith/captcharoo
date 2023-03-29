@@ -1,7 +1,7 @@
-import styles from "@/styles/Home.module.css";
+import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createRef, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
 
@@ -42,7 +42,7 @@ const CaptchaPage = () => {
         // Redirect to home and show error
         router.push("/?error=invalid");
       }
-    } catch (error: any) {
+    } catch (error) {
       alert(error?.message || "Something went wrong");
     } finally {
     }
@@ -76,7 +76,7 @@ const CaptchaPage = () => {
           }}>
           <ReCAPTCHA
             asyncScriptOnLoad={() => console.log("load")}
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
             onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
           />
         </div>

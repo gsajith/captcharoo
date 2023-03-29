@@ -1,15 +1,15 @@
-import Toast from "@/components/Toast";
-import styles from "@/styles/Home.module.css";
-import { testCaptcha } from "@/utils";
+import { testCaptcha } from "../utils";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
 import { Transition } from "react-transition-group";
+import Toast from "../components/Toast";
+import styles from "../styles/Home.module.css";
 
-import TextField from "@/components/TextField";
 import localFont from "next/font/local";
+import TextField from "../components/TextField";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const duration = 600;
@@ -36,12 +36,12 @@ export default function Home() {
   const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
   const nodeRef = useRef(null);
   const router = useRouter();
-  const showToastRef = useRef<NodeJS.Timeout>();
+  const showToastRef = useRef();
   const [toastShown, setToastShown] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
   const handleSubmit = useCallback(
-    async (event: any) => {
+    async (event) => {
       try {
         event.preventDefault();
 
@@ -67,7 +67,7 @@ export default function Home() {
         const result = await response.json();
         setCreatedPhraseCode(result.data[0].shortcode);
         // alert(`Is this your full name: ${JSON.stringify(result)}`);
-      } catch (error: any) {
+      } catch (error) {
         alert(error?.message || "Something went wrong");
       } finally {
       }
@@ -144,13 +144,13 @@ export default function Home() {
                       maxLength={20}
                       required
                       value={phraseValue}
-                      onChange={(e: any) => setPhraseValue(e.target.value)}
+                      onChange={(e) => setPhraseValue(e.target.value)}
                     />
                     <TextField
                       name="name"
                       placeholder="Your name (optional)"
                       value={nameValue}
-                      onChange={(e: any) => setNameValue(e.target.value)}
+                      onChange={(e) => setNameValue(e.target.value)}
                     />
 
                     <ReCAPTCHA
@@ -159,7 +159,7 @@ export default function Home() {
                           setCaptchaLoaded(true);
                         }, 100)
                       }
-                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                       onChange={(code) =>
                         testCaptcha(code, () => setCaptchaSolved(true))
                       }

@@ -1,6 +1,6 @@
-import styles from "@/styles/Home.module.css";
+import styles from "../styles/Home.module.css";
 
-const TextField = (props: any) => {
+const TextField = (props) => {
   return (
     <input
       className={styles.textField}

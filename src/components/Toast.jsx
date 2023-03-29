@@ -1,11 +1,6 @@
-import styles from "@/styles/Toast.module.css";
+import styles from "../styles/Toast.module.css";
 
-type ToastProps = {
-  message: string;
-  shown: boolean;
-};
-
-const Toast = ({ message, shown }: ToastProps) => {
+const Toast = ({ message, shown }) => {
   const fullMessage = message.includes("Invalid") ? (
     <>
       <b>Error:</b> {message}
