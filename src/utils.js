@@ -36,6 +36,22 @@ export const randomSlug = () => {
   return generateSlug(2, {
     format: "kebab",
     partsOfSpeech: ["adjective", "noun"],
+    categories: {
+      adjective: [
+        "condition",
+        "personality",
+        "quantity",
+        "taste",
+        "sounds",
+        "time",
+        "color",
+        "touch",
+        "appearance",
+        "shapes",
+        "size",
+      ],
+      noun: ["animals", "food"],
+    },
   });
 };
 

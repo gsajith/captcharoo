@@ -1,7 +1,6 @@
 import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { generateSlug } from "random-word-slugs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
@@ -15,7 +14,7 @@ import IconTextField from "../components/IconTextField";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
 import styles from "../styles/Home.module.css";
-import { testCaptcha } from "../utils";
+import { randomSlug, testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const transitionStyles = {
@@ -116,12 +115,12 @@ export default function Home() {
                 <IconTextField
                   icon={
                     <AiOutlineRetweet
-                      onClick={() => setPhraseValue(generateSlug())}
+                      onClick={() => setPhraseValue(randomSlug())}
                     />
                   }
                   name="phrase"
                   placeholder="Your phrase"
-                  maxLength={60}
+                  maxLength={40}
                   required
                   value={phraseValue}
                   onChange={(e) => setPhraseValue(e.target.value)}
