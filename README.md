@@ -29,3 +29,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - Clean up more code
 - TTL slider
 - SSR for title page based on name of creator
+- Generating from a page with error keeps the error query

@@ -27,14 +27,14 @@ const transitionStyles = {
 };
 
 export default function Home() {
+  const router = useRouter();
+  const nodeRef = useRef();
+  const showToastRef = useRef();
   const [captchaLoaded, setCaptchaLoaded] = useState(false);
   const [captchaSolved, setCaptchaSolved] = useState(false);
+  const [createdPhraseCode, setCreatedPhraseCode] = useState(false);
   const [phraseValue, setPhraseValue] = useState("");
   const [nameValue, setNameValue] = useState("");
-  const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
-  const nodeRef = useRef(null);
-  const router = useRouter();
-  const showToastRef = useRef();
   const [toastShown, setToastShown] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -73,18 +73,9 @@ export default function Home() {
     [phraseValue, nameValue]
   );
 
-  const triggerError = () => {
+  const triggerToast = (message) => {
     clearTimeout(showToastRef.current);
-    setToastMessage("Invalid link provided.");
-    setToastShown(true);
-    showToastRef.current = setTimeout(() => {
-      setToastShown(false);
-    }, 3000);
-  };
-
-  const triggerCopied = () => {
-    clearTimeout(showToastRef.current);
-    setToastMessage("Link copied!");
+    setToastMessage(message);
     setToastShown(true);
     showToastRef.current = setTimeout(() => {
       setToastShown(false);
@@ -93,7 +84,7 @@ export default function Home() {
 
   useEffect(() => {
     if (router.query.error) {
-      triggerError();
+      triggerToast("Invalid link provided.");
     }
   }, [router.query.error]);
 
@@ -179,7 +170,7 @@ export default function Home() {
                     navigator.clipboard.writeText(
                       window.location.href + "" + createdPhraseCode
                     );
-                    triggerCopied();
+                    triggerToast("Link copied!");
                   }}>
                   <div>{window.location.href + "" + createdPhraseCode}</div>
                   <div className={styles.linkButton}>
