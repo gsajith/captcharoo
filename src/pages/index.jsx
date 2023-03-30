@@ -100,7 +100,7 @@ export default function Home() {
             <div className={`${climateCrisis.className} ${styles.title}`}>
               {!createdPhraseCode
                 ? "Store your secret phrase"
-                : "Your phrase is stored"}
+                : "Your phrase is stored!"}
             </div>
           </div>
 
@@ -168,6 +168,8 @@ export default function Home() {
                       <AiOutlineCopy />
                     </div>
                   </div>
+
+                  <div className={styles.sans}>Send this link to anyone you want to unlock the secret phrase.</div>
                 </div>
               )
             }
