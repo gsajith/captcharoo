@@ -100,7 +100,7 @@ export default function Home() {
             <div className={`${climateCrisis.className} ${styles.title}`}>
               {!createdPhraseCode
                 ? "Store your secret phrase"
-                : "Your phrase is stored"}
+                : "Your phrase is stored!"}
             </div>
           </div>
 
@@ -115,7 +115,10 @@ export default function Home() {
                 <IconTextField
                   icon={
                     <AiOutlineRetweet
-                      onClick={() => setPhraseValue(randomSlug())}
+                      onClick={() => {
+                        window.getSelection().removeAllRanges();
+                        setPhraseValue(randomSlug());
+                      }}
                     />
                   }
                   name="phrase"
@@ -160,34 +163,30 @@ export default function Home() {
                       );
                       triggerToast("Link copied!");
                     }}>
-                    <div>{window.location.href + "" + createdPhraseCode}</div>
+                    <div className={styles.linkText}>{window.location.href + "" + createdPhraseCode}</div>
                     <div className={styles.linkButton}>
                       <AiOutlineCopy />
                     </div>
                   </div>
+
+                  <div className={styles.sans}>Send this link to anyone you want to unlock the secret phrase.</div>
                 </div>
               )
             }
           </Transition>
-          <button
-            className={`${climateCrisis.className} ${styles.submitButton} ${
-              createdPhraseCode && styles.noInteract
-            }`}
+          {createdPhraseCode ? <div
+            className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>
+            <AiFillLock />
+            LOCKED
+          </div> : <button
+            className={`${climateCrisis.className} ${styles.submitButton}`}
             onClick={handleSubmit}
             disabled={!captchaSolved}>
-            {!createdPhraseCode ? (
-              <>
-                <AiFillUnlock className={styles.unlock} />
-                <AiFillLock className={styles.lock} />
-                LOCK
-              </>
-            ) : (
-              <>
-                <AiFillLock />
-                LOCKED
-              </>
-            )}
-          </button>
+            <AiFillUnlock className={styles.unlock} />
+            <AiFillLock className={styles.lock} />
+            LOCK
+          </button>}
+
         </div>
       </main>
     </>

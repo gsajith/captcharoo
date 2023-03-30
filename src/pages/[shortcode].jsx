@@ -1,21 +1,43 @@
 import styles from "../styles/Home.module.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { testCaptcha } from "../utils";
+import Toast from "../components/Toast";
+import localFont from "next/font/local";
+const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
+import {
+  AiFillLock,
+  AiFillUnlock,
+  AiOutlineCopy,
+  AiOutlineRetweet,
+} from "react-icons/ai";
 
 const CaptchaPage = (props) => {
   const router = useRouter();
   const { shortcode } = router.query;
+  const showToastRef = useRef();
 
   const [phrase, setPhrase] = useState(null);
   const [name, setName] = useState(null);
   const [captchaSolved, setCaptchaSolved] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastShown, setToastShown] = useState(false);
 
-  const title = `Captcharoo${
-    props.name && props.name.length > 0 && " from " + props.name
-  }`;
+  const title = `Captcharoo${props.name && props.name.length > 0 && " from " + props.name
+    }`;
+
+
+  const triggerToast = (message) => {
+    clearTimeout(showToastRef.current);
+    setToastMessage(message);
+    setToastShown(true);
+    showToastRef.current = setTimeout(() => {
+      setToastShown(false);
+    }, 3000);
+  };
+
 
   const fetchRow = useCallback(async () => {
     try {
@@ -64,14 +86,45 @@ const CaptchaPage = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.center}>
-          {shortcode}:{phrase} {name}
+        <Toast message={toastMessage} shown={toastShown} />
+        <div className={styles.homePageContainer}>
+          <div className={styles.titleContainer} style={captchaSolved ? { backgroundColor: "#42DB75", color: "white" } : {}}>
+            <div className={`${climateCrisis.className} ${styles.title}`}>
+              {captchaSolved ? "Congrats! This is the phrase:" : "Unlock the secret phrase"}
+            </div>
+          </div>
+          <div className={styles.formContainer} style={{ opacity: 1 }}>
+            {!captchaSolved ?
+              <>
+                <div className={styles.sans}>Solve the captcha below to reveal the secret phrase{name ? <> from <b>{name}</b></> : <></>}.</div>
+                <ReCAPTCHA
+                  asyncScriptOnLoad={() => console.log("load")}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                  onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
+                /></> :
+              <>
+                <div
+                  className={`${styles.linkContainer} ${captchaSolved && styles.solved}`}
+                  onClick={() => {
+                    if (phrase) {
+                      navigator.clipboard.writeText(phrase);
+                      triggerToast("Phrase copied!");
+                    }
+                  }}>
+                  <div>{phrase}</div>
+                  <div className={styles.linkButton}>
+                    <AiOutlineCopy />
+                  </div>
+                </div>
+                <div className={styles.sans}>Share this phrase back to{name ? <> <b>{name}</b></> : <> whoever sent this captcha to you</>}.</div>
+              </>}
+          </div>
+          <div
+            className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
+            style={captchaSolved ? { backgroundColor: "#42DB75", color: "white" } : {}}>
+            {!captchaSolved ? <><AiFillLock /> {"LOCKED"}</> : <><AiFillUnlock /> {"SOLVED!"}</>}
+          </div>
         </div>
-        <ReCAPTCHA
-          asyncScriptOnLoad={() => console.log("load")}
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-          onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
-        />
       </main>
     </>
   );
