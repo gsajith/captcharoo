@@ -163,10 +163,6 @@
   outline: 1px solid #F9F4EA;
 }
 
-.solved {
-
-}
-
 .linkContainer:hover {
   outline: 1px solid #8D6F33;
   transition: outline 200ms, color 200ms, background-color 200ms;

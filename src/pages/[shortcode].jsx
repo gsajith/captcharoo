@@ -1,18 +1,13 @@
-import styles from "../styles/Home.module.css";
+import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { testCaptcha } from "../utils";
+import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
 import Toast from "../components/Toast";
-import localFont from "next/font/local";
+import styles from "../styles/Home.module.css";
+import { testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
-import {
-  AiFillLock,
-  AiFillUnlock,
-  AiOutlineCopy,
-  AiOutlineRetweet,
-} from "react-icons/ai";
 
 const CaptchaPage = (props) => {
   const router = useRouter();
@@ -25,9 +20,9 @@ const CaptchaPage = (props) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastShown, setToastShown] = useState(false);
 
-  const title = `Captcharoo${props.name && props.name.length > 0 && " from " + props.name
-    }`;
-
+  const title = `Captcharoo${
+    props.name && props.name.length > 0 && " from " + props.name
+  }`;
 
   const triggerToast = (message) => {
     clearTimeout(showToastRef.current);
@@ -37,7 +32,6 @@ const CaptchaPage = (props) => {
       setToastShown(false);
     }, 3000);
   };
-
 
   const fetchRow = useCallback(async () => {
     try {
@@ -88,23 +82,48 @@ const CaptchaPage = (props) => {
       <main className={styles.main}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
-          <div className={styles.titleContainer} style={captchaSolved ? { backgroundColor: "#42DB75", color: "white" } : {}}>
+          <div
+            className={styles.titleContainer}
+            style={
+              captchaSolved
+                ? { backgroundColor: "#42DB75", color: "black" }
+                : {}
+            }>
             <div className={`${climateCrisis.className} ${styles.title}`}>
-              {captchaSolved ? "Congrats! This is the phrase:" : "Unlock the secret phrase"}
+              {captchaSolved
+                ? "Congrats! This is the phrase:"
+                : "Unlock the secret phrase"}
             </div>
           </div>
           <div className={styles.formContainer} style={{ opacity: 1 }}>
-            {!captchaSolved ?
+            {!captchaSolved ? (
               <>
-                <div className={styles.sans}>Solve the captcha below to reveal the secret phrase{name ? <> from <b>{name}</b></> : <></>}.</div>
+                <div className={styles.sans}>
+                  Solve the captcha below to reveal the secret phrase
+                  {name ? (
+                    <>
+                      {" "}
+                      from <b>{name}</b>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  .
+                </div>
                 <ReCAPTCHA
                   asyncScriptOnLoad={() => console.log("load")}
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={(code) => testCaptcha(code, () => setCaptchaSolved(true))}
-                /></> :
+                  onChange={(code) =>
+                    testCaptcha(code, () => setCaptchaSolved(true))
+                  }
+                />
+              </>
+            ) : (
               <>
                 <div
-                  className={`${styles.linkContainer} ${captchaSolved && styles.solved}`}
+                  className={`${styles.linkContainer} ${
+                    captchaSolved && styles.solved
+                  }`}
                   onClick={() => {
                     if (phrase) {
                       navigator.clipboard.writeText(phrase);
@@ -116,13 +135,37 @@ const CaptchaPage = (props) => {
                     <AiOutlineCopy />
                   </div>
                 </div>
-                <div className={styles.sans}>Share this phrase back to{name ? <> <b>{name}</b></> : <> whoever sent this captcha to you</>}.</div>
-              </>}
+                <div className={styles.sans}>
+                  Share this phrase back to
+                  {name ? (
+                    <>
+                      {" "}
+                      <b>{name}</b>
+                    </>
+                  ) : (
+                    <> whoever sent this captcha to you</>
+                  )}
+                  .
+                </div>
+              </>
+            )}
           </div>
           <div
             className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
-            style={captchaSolved ? { backgroundColor: "#42DB75", color: "white" } : {}}>
-            {!captchaSolved ? <><AiFillLock /> {"LOCKED"}</> : <><AiFillUnlock /> {"SOLVED!"}</>}
+            style={
+              captchaSolved
+                ? { backgroundColor: "#42DB75", color: "black" }
+                : {}
+            }>
+            {!captchaSolved ? (
+              <>
+                <AiFillLock /> {"LOCKED"}
+              </>
+            ) : (
+              <>
+                <AiFillUnlock /> {"SOLVED!"}
+              </>
+            )}
           </div>
         </div>
       </main>
