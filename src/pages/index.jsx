@@ -115,7 +115,10 @@ export default function Home() {
                 <IconTextField
                   icon={
                     <AiOutlineRetweet
-                      onClick={() => setPhraseValue(randomSlug())}
+                      onClick={() => {
+                        window.getSelection().removeAllRanges();
+                        setPhraseValue(randomSlug());
+                      }}
                     />
                   }
                   name="phrase"
