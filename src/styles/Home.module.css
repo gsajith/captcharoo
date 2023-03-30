@@ -159,17 +159,41 @@
   font-weight: 500;
   border-radius: 8px;
   cursor: pointer;
-  transition: outline 200ms, color 200ms;
+  transition: outline 200ms, color 200ms, background-color 200ms;
   outline: 1px solid #F9F4EA;
+}
+
+.solved {
+
 }
 
 .linkContainer:hover {
   outline: 1px solid #8D6F33;
-  transition: outline 200ms, color 200ms;
+  transition: outline 200ms, color 200ms, background-color 200ms;
 }
 
 .linkContainer:hover * {
   color: #564117;
+}
+
+.linkContainer.solved {
+  background-color: #DEFFE9;
+  color: #246A3B;
+  outline: 1px solid #7FD19B;
+  transition: outline 200ms, color 200ms, background-color 200ms;
+}
+
+.linkContainer.solved:hover {
+  outline: 1px solid #4C9A66;
+  transition: outline 200ms, color 200ms, background-color 200ms;
+}
+
+.linkContainer.solved:hover * {
+  color: #226639;
+}
+
+.linkContainer.solved .linkButton {
+  color: #7FD19B;
 }
 
 .linkText {

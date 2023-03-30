@@ -88,7 +88,7 @@ const CaptchaPage = (props) => {
       <main className={styles.main}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
-          <div className={styles.titleContainer}>
+          <div className={styles.titleContainer} style={captchaSolved ? { backgroundColor: "#42DB75", color: "white" } : {}}>
             <div className={`${climateCrisis.className} ${styles.title}`}>
               {captchaSolved ? "Congrats! This is the phrase:" : "Unlock the secret phrase"}
             </div>
@@ -104,7 +104,7 @@ const CaptchaPage = (props) => {
                 /></> :
               <>
                 <div
-                  className={styles.linkContainer}
+                  className={`${styles.linkContainer} ${captchaSolved && styles.solved}`}
                   onClick={() => {
                     if (phrase) {
                       navigator.clipboard.writeText(phrase);
@@ -120,7 +120,8 @@ const CaptchaPage = (props) => {
               </>}
           </div>
           <div
-            className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>
+            className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
+            style={captchaSolved ? { backgroundColor: "#42DB75", color: "white" } : {}}>
             {!captchaSolved ? <><AiFillLock /> {"LOCKED"}</> : <><AiFillUnlock /> {"SOLVED!"}</>}
           </div>
         </div>
