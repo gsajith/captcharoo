@@ -34,8 +34,8 @@ export default async function handler(req, res) {
         .from("phrases")
         .insert([
           {
-            phrase: phrase,
-            name: name || "",
+            phrase: phrase.substring(0, 40),
+            name: name ? name.substring(0, 40) : "",
             user_id: process.env.SUPABASE_USER_ID,
             shortcode: generateShortcode(),
           },

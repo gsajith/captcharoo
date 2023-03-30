@@ -30,5 +30,5 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - TTL slider
 - Generating from a page with error keeps the error query
 - SEO / image preview metadata
-- Sanitize & shorten user input on server side before adding a row
+- Error states
 - Try out https://ui.shadcn.com/
