@@ -163,7 +163,7 @@ export default function Home() {
                       );
                       triggerToast("Link copied!");
                     }}>
-                    <div>{window.location.href + "" + createdPhraseCode}</div>
+                    <div className={styles.linkText}>{window.location.href + "" + createdPhraseCode}</div>
                     <div className={styles.linkButton}>
                       <AiOutlineCopy />
                     </div>
