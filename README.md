@@ -32,3 +32,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - Styling for shortcode page
 - SEO / image preview metadata
 - Sanitize & shorten user input on server side before adding a row
+- Try out https://ui.shadcn.com/

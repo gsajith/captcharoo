@@ -20,6 +20,7 @@ export default async function handler(req, res) {
       `[${dateString}] Called GET with code ${shortcode} and includePhrase ${includePhrase}`
     );
 
+    // Get the row from the database
     try {
       let { data: phrases, error } = await supabase
         .from("phrases")
