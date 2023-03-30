@@ -29,5 +29,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - Clean up more code
 - TTL slider
 - Generating from a page with error keeps the error query
-- Styling for shortcode page
 - SEO / image preview metadata
