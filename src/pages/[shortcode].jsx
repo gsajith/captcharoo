@@ -96,7 +96,7 @@ const CaptchaPage = (props) => {
           <div className={styles.formContainer} style={{ opacity: 1 }}>
             {!captchaSolved ?
               <>
-                <div className={styles.sans}>Solve the captcha below to unlock the secret phrase{name ? <> sent to you from <b>{name}</b></> : <></>}.</div>
+                <div className={styles.sans}>Solve the captcha below to reveal the secret phrase{name ? <> from <b>{name}</b></> : <></>}.</div>
                 <ReCAPTCHA
                   asyncScriptOnLoad={() => console.log("load")}
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
@@ -119,10 +119,10 @@ const CaptchaPage = (props) => {
                 <div className={styles.sans}>Share this phrase back to{name ? <> <b>{name}</b></> : <> whoever sent this captcha to you</>}.</div>
               </>}
           </div>
-          <button
+          <div
             className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>
-            {!captchaSolved ? <><AiFillLock /> {"LOCKED"}</> : <><AiFillUnlock /> {"SOLVED"}</>}
-          </button>
+            {!captchaSolved ? <><AiFillLock /> {"LOCKED"}</> : <><AiFillUnlock /> {"SOLVED!"}</>}
+          </div>
         </div>
       </main>
     </>
