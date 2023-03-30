@@ -155,7 +155,7 @@ export default function Home() {
                     ...transitionStyles[state],
                   }}
                   className={styles.formContainer}>
-                  <div
+                  <button
                     className={styles.linkContainer}
                     onClick={() => {
                       navigator.clipboard.writeText(
@@ -169,7 +169,7 @@ export default function Home() {
                     <div className={styles.linkButton}>
                       <AiOutlineCopy />
                     </div>
-                  </div>
+                  </button>
 
                   <div className={styles.sans}>
                     Send this link to anyone you want to unlock the secret

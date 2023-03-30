@@ -159,32 +159,29 @@
   font-weight: 500;
   border-radius: 8px;
   cursor: pointer;
-  transition: outline 200ms, color 200ms, background-color 200ms;
-  outline: 1px solid #F9F4EA;
+  outline: 2px solid #F9F4EA;
+  border: none;
 }
 
-.linkContainer:hover {
-  outline: 1px solid #8D6F33;
-  transition: outline 200ms, color 200ms, background-color 200ms;
+.linkContainer:hover, .linkContainer:focus {
+  outline: 2px solid #8D6F33;
 }
 
-.linkContainer:hover * {
+.linkContainer:hover *, .linkContainer:focus * {
   color: #564117;
 }
 
 .linkContainer.solved {
   background-color: #DEFFE9;
   color: #246A3B;
-  outline: 1px solid #7FD19B;
-  transition: outline 200ms, color 200ms, background-color 200ms;
+  outline: 2px solid #7FD19B;
 }
 
-.linkContainer.solved:hover {
-  outline: 1px solid #4C9A66;
-  transition: outline 200ms, color 200ms, background-color 200ms;
+.linkContainer.solved:hover, .linkContainer.solved:focus {
+  outline: 2px solid #4C9A66;
 }
 
-.linkContainer.solved:hover * {
+.linkContainer.solved:hover *, .linkContainer.solved:focus * {
   color: #226639;
 }
 

@@ -120,7 +120,8 @@ const CaptchaPage = (props) => {
               </>
             ) : (
               <>
-                <div
+                <button
+                  tabindex={0}
                   className={`${styles.linkContainer} ${
                     captchaSolved && styles.solved
                   }`}
@@ -134,7 +135,7 @@ const CaptchaPage = (props) => {
                   <div className={styles.linkButton}>
                     <AiOutlineCopy />
                   </div>
-                </div>
+                </button>
                 <div className={styles.sans}>
                   Share this phrase back to
                   {name ? (
