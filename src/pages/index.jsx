@@ -7,12 +7,12 @@ import {
   AiFillLock,
   AiFillUnlock,
   AiOutlineCopy,
-  AiOutlineRetweet,
+  AiOutlineRetweet
 } from "react-icons/ai";
 import IconTextField from "../components/IconTextField";
+import Slider from "../components/Slider";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
-import Slider from "../components/Slider";
 import styles from "../styles/Home.module.css";
 import { randomSlug, testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
@@ -53,7 +53,6 @@ export default function Home() {
 
         const result = await response.json();
         setCreatedPhraseCode(result.data[0].shortcode);
-        // alert(`Is this your full name: ${JSON.stringify(result)}`);
       } catch (error) {
         alert(error?.message || "Something went wrong");
       } finally {
@@ -95,66 +94,6 @@ export default function Home() {
                 : "Your phrase is stored!"}
             </div>
           </div>
-
-          <Transition nodeRef={nodeRef} in={!createdPhraseCode} timeout={600}>
-            {(state) => (
-              <div
-                ref={nodeRef}
-                style={{
-                  ...transitionStyles[state],
-                }}
-                className={styles.formContainer}>
-                <IconTextField
-                  icon={
-                    <AiOutlineRetweet
-                      onClick={() => {
-                        window.getSelection().removeAllRanges();
-                        setPhraseValue(randomSlug());
-                      }}
-                    />
-                  }
-                  name="phrase"
-                  placeholder="Your phrase"
-                  maxLength={40}
-                  required
-                  value={phraseValue}
-                  onChange={(e) => setPhraseValue(e.target.value)}
-                />
-                <TextField
-                  name="name"
-                  placeholder="Your name (optional)"
-                  maxLength={40}
-                  value={nameValue}
-                  onChange={(e) => setNameValue(e.target.value)}
-                />
-                <Slider
-                  defaultValue={[2]}
-                  max={6}
-                  min={1}
-                  step={1}
-                  aria-label={"Expires in"}
-                />
-                <ReCAPTCHA
-                  asyncScriptOnLoad={() => console.log("Captcha loaded")}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={(code) =>
-                    testCaptcha(code, () => setCaptchaSolved(true))
-                  }
-                />
-              </div>
-            )}
-          </Transition>
-          <Transition nodeRef={nodeRef} in={createdPhraseCode} timeout={600}>
-            {(state) =>
-              createdPhraseCode && (
-                <div
-                  ref={nodeRef}
-                  style={{
-                    ...transitionStyles[state],
-                  }}
-                  className={styles.formContainer}>
-                  <button
-                    className={styles.linkContainer}
           {!createdPhraseCode ?
             <div
               className={styles.formContainer}>
@@ -181,7 +120,13 @@ export default function Home() {
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
               />
-
+              <Slider
+                defaultValue={[2]}
+                max={6}
+                min={1}
+                step={1}
+                aria-label={"Expires in"}
+              />
               <ReCAPTCHA
                 asyncScriptOnLoad={() => console.log("Captcha loaded")}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
