@@ -9,7 +9,6 @@ import {
   AiOutlineCopy,
   AiOutlineRetweet,
 } from "react-icons/ai";
-import { Transition } from "react-transition-group";
 import IconTextField from "../components/IconTextField";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
@@ -18,16 +17,8 @@ import styles from "../styles/Home.module.css";
 import { randomSlug, testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
-const transitionStyles = {
-  entering: { opacity: 1 },
-  entered: { opacity: 1 },
-  exiting: { opacity: 0, maxHeight: 0, padding: 0 },
-  exited: { opacity: 0, maxHeight: 0, padding: 0 },
-};
-
 export default function Home() {
   const router = useRouter();
-  const nodeRef = useRef();
   const showToastRef = useRef();
   const [captchaSolved, setCaptchaSolved] = useState(false);
   const [createdPhraseCode, setCreatedPhraseCode] = useState(false);
@@ -164,28 +155,65 @@ export default function Home() {
                   className={styles.formContainer}>
                   <button
                     className={styles.linkContainer}
+          {!createdPhraseCode ?
+            <div
+              className={styles.formContainer}>
+              <IconTextField
+                icon={
+                  <AiOutlineRetweet
                     onClick={() => {
-                      navigator.clipboard.writeText(
-                        window.location.href + "" + createdPhraseCode
-                      );
-                      triggerToast("Link copied!");
-                    }}>
-                    <div className={styles.linkText}>
-                      {window.location.href + "" + createdPhraseCode}
-                    </div>
-                    <div className={styles.linkButton}>
-                      <AiOutlineCopy />
-                    </div>
-                  </button>
+                      window.getSelection().removeAllRanges();
+                      setPhraseValue(randomSlug());
+                    }}
+                  />
+                }
+                name="phrase"
+                placeholder="Your phrase"
+                maxLength={40}
+                required
+                value={phraseValue}
+                onChange={(e) => setPhraseValue(e.target.value)}
+              />
+              <TextField
+                name="name"
+                placeholder="Your name (optional)"
+                maxLength={40}
+                value={nameValue}
+                onChange={(e) => setNameValue(e.target.value)}
+              />
 
-                  <div className={styles.sans}>
-                    Send this link to anyone you want to unlock the secret
-                    phrase.
-                  </div>
+              <ReCAPTCHA
+                asyncScriptOnLoad={() => console.log("Captcha loaded")}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                onChange={(code) =>
+                  testCaptcha(code, () => setCaptchaSolved(true))
+                }
+              />
+            </div> :
+            <div
+              className={styles.formContainer}>
+              <button
+                className={styles.linkContainer}
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    window.location.href + "" + createdPhraseCode
+                  );
+                  triggerToast("Link copied!");
+                }}>
+                <div className={styles.linkText}>
+                  {window.location.href + "" + createdPhraseCode}
                 </div>
-              )
-            }
-          </Transition>
+                <div className={styles.linkButton}>
+                  <AiOutlineCopy />
+                </div>
+              </button>
+
+              <div className={styles.sans}>
+                Send this link to anyone you want to unlock the secret
+                phrase.
+              </div>
+            </div>
+          }
           {createdPhraseCode ? (
             <div
               className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>
