@@ -197,3 +197,20 @@
   margin-top: 6px;
   color: #8D6F33;
 }
+
+.sliderContainer {
+  text-align: start;
+  color: #666666;
+  font-size: 14px;
+}
+
+.sliderLabelContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.sliderValue {
+  font-weight: 700;
+  color: red;
+}

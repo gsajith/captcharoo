@@ -17,6 +17,16 @@ import styles from "../styles/Home.module.css";
 import { randomSlug, testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
+const EXPIRY = [
+  { label: "1 hour", value: 60 * 60 },
+  { label: "6 hours", value: 60 * 60 * 6 },
+  { label: "12 hours", value: 60 * 60 * 12 },
+  { label: "24 hours", value: 60 * 60 * 24 },
+  { label: "48 hours", value: 60 * 60 * 48 },
+  { label: "1 week", value: 60 * 60 * 24 * 7 },
+  { label: "1 month", value: 60 * 60 * 24 * 30 }
+]
+
 export default function Home() {
   const router = useRouter();
   const showToastRef = useRef();
@@ -24,6 +34,7 @@ export default function Home() {
   const [createdPhraseCode, setCreatedPhraseCode] = useState(false);
   const [phraseValue, setPhraseValue] = useState("");
   const [nameValue, setNameValue] = useState("");
+  const [expiryValue, setExpiryValue] = useState(2);
   const [toastShown, setToastShown] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -119,13 +130,21 @@ export default function Home() {
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
               />
-              <Slider
-                defaultValue={[2]}
-                max={6}
-                min={1}
-                step={1}
-                aria-label={"Expires in"}
-              />
+              <div className={styles.sliderContainer}>
+                <div className={styles.sliderLabelContainer}>
+                  <label for="expiry">Expires in:</label>
+                  <span className={styles.sliderValue}>{EXPIRY[expiryValue].label}</span>
+                </div>
+                <Slider
+                  defaultValue={[expiryValue]}
+                  max={EXPIRY.length - 1}
+                  min={0}
+                  step={1}
+                  aria-label={"Expires in"}
+                  id="expiry"
+                  onValueChange={(value) => setExpiryValue(value[0])}
+                />
+              </div>
               <ReCAPTCHA
                 asyncScriptOnLoad={() => console.log("Captcha loaded")}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}

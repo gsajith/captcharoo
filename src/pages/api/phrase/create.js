@@ -15,7 +15,6 @@ export default async function handler(req, res) {
 
     // Guard clause checks for phrase
     // and returns early if not found
-    // TODO: Validate Phrase and Name here
     if (!body.phrase) {
       // Sends a HTTP bad request error code
       return res.status(400).json({ data: "Phrase not found." });
