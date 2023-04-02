@@ -13,6 +13,7 @@ import { Transition } from "react-transition-group";
 import IconTextField from "../components/IconTextField";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
+import Slider from "../components/Slider";
 import styles from "../styles/Home.module.css";
 import { randomSlug, testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
@@ -135,7 +136,13 @@ export default function Home() {
                   value={nameValue}
                   onChange={(e) => setNameValue(e.target.value)}
                 />
-
+                <Slider
+                  defaultValue={[2]}
+                  max={6}
+                  min={1}
+                  step={1}
+                  aria-label={"Expires in"}
+                />
                 <ReCAPTCHA
                   asyncScriptOnLoad={() => console.log("Captcha loaded")}
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
