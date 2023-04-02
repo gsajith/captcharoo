@@ -29,9 +29,8 @@ export default function Home() {
 
   const handleSubmit = useCallback(
     async (event) => {
+      event.preventDefault();
       try {
-        event.preventDefault();
-
         const data = {
           phrase: phraseValue,
           name: nameValue,
