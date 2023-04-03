@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { generateShortcode } from "../../../utils";
+import { MAX_INPUT_LENGTH } from "../../../constants";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -33,8 +34,8 @@ export default async function handler(req, res) {
         .from("phrases")
         .insert([
           {
-            phrase: phrase.substring(0, 40),
-            name: name ? name.substring(0, 40) : "",
+            phrase: phrase.substring(0, MAX_INPUT_LENGTH),
+            name: name ? name.substring(0, MAX_INPUT_LENGTH) : "",
             user_id: process.env.SUPABASE_USER_ID,
             shortcode: generateShortcode(),
           },

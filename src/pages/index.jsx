@@ -7,31 +7,22 @@ import {
   AiFillLock,
   AiFillUnlock,
   AiOutlineCopy,
-  AiOutlineRetweet
+  AiOutlineRetweet,
 } from "react-icons/ai";
 import IconTextField from "../components/IconTextField";
 import Slider from "../components/Slider";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
+import { EXPIRY_OPTIONS, MAX_INPUT_LENGTH, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
 import { randomSlug, testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
-
-const EXPIRY = [
-  { label: "1 hour", value: 60 * 60 },
-  { label: "6 hours", value: 60 * 60 * 6 },
-  { label: "12 hours", value: 60 * 60 * 12 },
-  { label: "24 hours", value: 60 * 60 * 24 },
-  { label: "48 hours", value: 60 * 60 * 48 },
-  { label: "1 week", value: 60 * 60 * 24 * 7 },
-  { label: "1 month", value: 60 * 60 * 24 * 30 }
-]
 
 export default function Home() {
   const router = useRouter();
   const showToastRef = useRef();
   const [captchaSolved, setCaptchaSolved] = useState(false);
-  const [createdPhraseCode, setCreatedPhraseCode] = useState(false);
+  const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
   const [phraseValue, setPhraseValue] = useState("");
   const [nameValue, setNameValue] = useState("");
   const [expiryValue, setExpiryValue] = useState(2);
@@ -42,34 +33,31 @@ export default function Home() {
     async (event) => {
       event.preventDefault();
       try {
-        const data = {
-          phrase: phraseValue,
-          name: nameValue,
-        };
-
-        const JSONdata = JSON.stringify(data);
-
-        const endpoint = "/api/phrase/create";
-
         const options = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSONdata,
+          body: JSON.stringify({
+            phrase: phraseValue,
+            name: nameValue,
+          }),
         };
-
-        const response = await fetch(endpoint, options);
-
+        const response = await fetch("/api/phrase/create", options);
         const result = await response.json();
         setCreatedPhraseCode(result.data[0].shortcode);
       } catch (error) {
-        alert(error?.message || "Something went wrong");
-      } finally {
+        // TODO: Handle error
+        triggerToast(error?.message || "Something went wrong");
       }
     },
     [phraseValue, nameValue]
   );
+
+  const generateRandomPhrase = useCallback(() => {
+    window.getSelection().removeAllRanges();
+    setPhraseValue(randomSlug());
+  }, []);
 
   const triggerToast = (message) => {
     clearTimeout(showToastRef.current);
@@ -77,14 +65,15 @@ export default function Home() {
     setToastShown(true);
     showToastRef.current = setTimeout(() => {
       setToastShown(false);
-    }, 3000);
+    }, TOAST_TIMEOUT);
   };
 
   useEffect(() => {
     if (router.query.error) {
       triggerToast("Invalid link provided.");
+      router.push("/");
     }
-  }, [router.query.error]);
+  }, [router, router.query.error]);
 
   return (
     <>
@@ -94,7 +83,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />{" "}
       </Head>
-      <main className={`${styles.main}`}>
+      <main className={styles.main}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           <div className={styles.titleContainer}>
@@ -104,21 +93,15 @@ export default function Home() {
                 : "Your phrase is stored!"}
             </div>
           </div>
-          {!createdPhraseCode ?
-            <div
-              className={styles.formContainer}>
+          {!createdPhraseCode ? (
+            <div className={styles.formContainer}>
               <IconTextField
                 icon={
-                  <AiOutlineRetweet
-                    onClick={() => {
-                      window.getSelection().removeAllRanges();
-                      setPhraseValue(randomSlug());
-                    }}
-                  />
+                  <AiOutlineRetweet onClick={() => generateRandomPhrase()} />
                 }
                 name="phrase"
                 placeholder="Your phrase"
-                maxLength={40}
+                maxLength={MAX_INPUT_LENGTH}
                 required
                 value={phraseValue}
                 onChange={(e) => setPhraseValue(e.target.value)}
@@ -126,18 +109,20 @@ export default function Home() {
               <TextField
                 name="name"
                 placeholder="Your name (optional)"
-                maxLength={40}
+                maxLength={MAX_INPUT_LENGTH}
                 value={nameValue}
                 onChange={(e) => setNameValue(e.target.value)}
               />
               <div className={styles.sliderContainer}>
                 <div className={styles.sliderLabelContainer}>
-                  <label for="expiry">Expires in:</label>
-                  <span className={styles.sliderValue}>{EXPIRY[expiryValue].label}</span>
+                  <label htmlFor="expiry">Expires in:</label>
+                  <span className={styles.sliderValue}>
+                    {EXPIRY_OPTIONS[expiryValue].label}
+                  </span>
                 </div>
                 <Slider
                   defaultValue={[expiryValue]}
-                  max={EXPIRY.length - 1}
+                  max={EXPIRY_OPTIONS.length - 1}
                   min={0}
                   step={1}
                   aria-label={"Expires in"}
@@ -146,15 +131,14 @@ export default function Home() {
                 />
               </div>
               <ReCAPTCHA
-                asyncScriptOnLoad={() => console.log("Captcha loaded")}
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
                 onChange={(code) =>
                   testCaptcha(code, () => setCaptchaSolved(true))
                 }
               />
-            </div> :
-            <div
-              className={styles.formContainer}>
+            </div>
+          ) : (
+            <div className={styles.formContainer}>
               <button
                 className={styles.linkContainer}
                 onClick={() => {
@@ -172,11 +156,10 @@ export default function Home() {
               </button>
 
               <div className={styles.sans}>
-                Send this link to anyone you want to unlock the secret
-                phrase.
+                Send this link to anyone you want to unlock the secret phrase.
               </div>
             </div>
-          }
+          )}
           {createdPhraseCode ? (
             <div
               className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>

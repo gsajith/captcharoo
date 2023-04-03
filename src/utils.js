@@ -1,6 +1,6 @@
 import { generateSlug } from "random-word-slugs";
 import { customAlphabet } from "nanoid";
-const nanoid = customAlphabet("1234567890abcdef", 10);
+const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 10);
 
 export const generateShortcode = () => {
   return nanoid(6);
@@ -25,6 +25,7 @@ export const testCaptcha = async (captchaCode, callback) => {
       throw new Error(error.message);
     }
   } catch (error) {
+    // TODO: Handle error
     alert(error?.message || "Something went wrong");
   } finally {
   }
