@@ -32,8 +32,6 @@ You need to set up a Supabase DB to store the data.
 
 ## TODO
 
-- Clean up more code
-- TTL slider
 - SEO / image preview metadata
 - Error states
 - Try out https://ui.shadcn.com/

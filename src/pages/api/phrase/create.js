@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   if (method === "POST") {
     // Get the params for this row
-    const { phrase, name } = body;
+    const { phrase, name, ttl } = body;
 
     // Guard clause checks for phrase
     // and returns early if not found
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     const dateString =
       newDate.toDateString() + " " + newDate.toLocaleTimeString("en-US");
     console.log(
-      `[${dateString}] Called CREATE with phrase ${phrase} and name ${name}`
+      `[${dateString}] Called CREATE with phrase ${phrase} and name ${name} and ttl ${ttl}`
     );
 
     try {
@@ -38,6 +38,7 @@ export default async function handler(req, res) {
             name: name ? name.substring(0, MAX_INPUT_LENGTH) : "",
             user_id: process.env.SUPABASE_USER_ID,
             shortcode: generateShortcode(),
+            ttl: ttl,
           },
         ])
         .select();

@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     try {
       let { data: phrases, error } = await supabase
         .from("phrases")
-        .select("name" + (includePhrase ? ", phrase" : ""))
+        .select("inserted_at, ttl, name" + (includePhrase ? ", phrase" : ""))
         .eq("shortcode", shortcode);
 
       // Invalid shortcode or malformed URL

@@ -41,6 +41,7 @@ export default function Home() {
           body: JSON.stringify({
             phrase: phraseValue,
             name: nameValue,
+            ttl: EXPIRY_OPTIONS[expiryValue].ms,
           }),
         };
         const response = await fetch("/api/phrase/create", options);
@@ -51,7 +52,7 @@ export default function Home() {
         triggerToast(error?.message || "Something went wrong");
       }
     },
-    [phraseValue, nameValue]
+    [phraseValue, nameValue, expiryValue]
   );
 
   const generateRandomPhrase = useCallback(() => {

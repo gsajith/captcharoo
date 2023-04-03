@@ -7,6 +7,7 @@ import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
 import { TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
+import Expired from "../components/Expired";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const CaptchaPage = (props) => {
@@ -79,82 +80,88 @@ const CaptchaPage = (props) => {
       <main className={styles.main}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
-          <div
-            className={styles.titleContainer}
-            style={
-              solved ? { backgroundColor: "#42DB75", color: "black" } : {}
-            }>
-            <div className={`${climateCrisis.className} ${styles.title}`}>
-              {solved
-                ? "Congrats! This is the phrase:"
-                : "Unlock the secret phrase"}
-            </div>
-          </div>
-          <div className={styles.formContainer}>
-            {!solved ? (
-              <>
-                <div className={styles.sans}>
-                  Solve the Captcha below to reveal the secret phrase
-                  {name ? (
-                    <>
-                      {" "}
-                      from <b>{name}</b>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  .
+          {props.expired ? (
+            <Expired name={name} />
+          ) : (
+            <>
+              <div
+                className={styles.titleContainer}
+                style={
+                  solved ? { backgroundColor: "#42DB75", color: "black" } : {}
+                }>
+                <div className={`${climateCrisis.className} ${styles.title}`}>
+                  {solved
+                    ? "Congrats! This is the phrase:"
+                    : "Unlock the secret phrase"}
                 </div>
-                <ReCaptcha setSolved={setSolved} />
-              </>
-            ) : (
-              <>
-                <button
-                  tabindex={0}
-                  className={`${styles.linkContainer} ${
-                    solved && styles.solved
-                  }`}
-                  onClick={() => {
-                    if (phrase) {
-                      navigator.clipboard.writeText(phrase);
-                      triggerToast("Phrase copied!");
-                    }
-                  }}>
-                  <div>{phrase}</div>
-                  <div className={styles.linkButton}>
-                    <AiOutlineCopy />
-                  </div>
-                </button>
-                <div className={styles.sans}>
-                  Share this phrase back to
-                  {name ? (
-                    <>
-                      {" "}
-                      <b>{name}</b>
-                    </>
-                  ) : (
-                    <> whoever sent this Captcha to you</>
-                  )}
-                  .
-                </div>
-              </>
-            )}
-          </div>
-          <div
-            className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
-            style={
-              solved ? { backgroundColor: "#42DB75", color: "black" } : {}
-            }>
-            {!solved ? (
-              <>
-                <AiFillLock /> {"LOCKED"}
-              </>
-            ) : (
-              <>
-                <AiFillUnlock /> {"SOLVED!"}
-              </>
-            )}
-          </div>
+              </div>
+              <div className={styles.formContainer}>
+                {!solved ? (
+                  <>
+                    <div>
+                      Solve the Captcha below to reveal the secret phrase
+                      {name ? (
+                        <>
+                          {" "}
+                          from <b>{name}</b>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      .
+                    </div>
+                    <ReCaptcha setSolved={setSolved} />
+                  </>
+                ) : (
+                  <>
+                    <button
+                      tabindex={0}
+                      className={`${styles.linkContainer} ${
+                        solved && styles.solved
+                      }`}
+                      onClick={() => {
+                        if (phrase) {
+                          navigator.clipboard.writeText(phrase);
+                          triggerToast("Phrase copied!");
+                        }
+                      }}>
+                      <div>{phrase}</div>
+                      <div className={styles.linkButton}>
+                        <AiOutlineCopy />
+                      </div>
+                    </button>
+                    <div className={styles.sans}>
+                      Share this phrase back to
+                      {name ? (
+                        <>
+                          {" "}
+                          <b>{name}</b>
+                        </>
+                      ) : (
+                        <> whoever sent this Captcha to you</>
+                      )}
+                      .
+                    </div>
+                  </>
+                )}
+              </div>
+              <div
+                className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
+                style={
+                  solved ? { backgroundColor: "#42DB75", color: "black" } : {}
+                }>
+                {!solved ? (
+                  <>
+                    <AiFillLock /> {"LOCKED"}
+                  </>
+                ) : (
+                  <>
+                    <AiFillUnlock /> {"SOLVED!"}
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </main>
     </>
@@ -182,6 +189,19 @@ export const getServerSideProps = async ({ params }) => {
 
     const response = await fetch(endpoint, options);
     const result = await response.json();
+
+    if (!result.data.inserted_at || !result.data.ttl) {
+      return {
+        props: { name: result.data.name, expired: true },
+      };
+    }
+
+    const inserted_at_ms = new Date(result.data.inserted_at).getTime();
+    if (inserted_at_ms + result.data.ttl < Date.now()) {
+      return {
+        props: { name: result.data.name, expired: true },
+      };
+    }
 
     if (response.ok) {
       return {

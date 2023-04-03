@@ -18,22 +18,24 @@
 
 .sliderRange {
   position: absolute;
-  background-color: red;
+  background-color: #FEBC38;
   border-radius: 9999px;
   height: 100%;
 }
 
 .sliderThumb {
   display: block;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  box-shadow: 0 2px 5px black;
-  border-radius: 10px;
+  width: 16px;
+  height: 16px;
+  background-color: #FEBC38;
+  border: 1px solid black;
+  border-radius: 16px;
 }
 
 .sliderThumb:hover {
-  background-color: blue;
+  background-color: #FEBC38;
+  outline: none;
+  box-shadow: 0 0 0 1px black;
 }
 
 .sliderThumb:focus {
