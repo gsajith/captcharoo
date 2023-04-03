@@ -55,7 +55,8 @@ const CaptchaPage = (props) => {
         router.push("/?error=invalid");
       }
     } catch (error) {
-      alert(error?.message || "Something went wrong");
+      // TODO: Handle error
+      triggerToast(error?.message || "Something went wrong");
     }
   }, [shortcode, solved, router]);
 
