@@ -15,8 +15,8 @@ const CaptchaPage = (props) => {
   const showToastRef = useRef();
 
   const [phrase, setPhrase] = useState(null);
-  const [name, setName] = useState(null);
-  const [captchaSolved, setCaptchaSolved] = useState(false);
+  const [name, setName] = useState(props.name);
+  const [solved, setSolved] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastShown, setToastShown] = useState(false);
 
@@ -42,7 +42,7 @@ const CaptchaPage = (props) => {
         },
         body: JSON.stringify({
           shortcode: shortcode,
-          includePhrase: captchaSolved,
+          includePhrase: solved,
         }),
       };
       const response = await fetch("/api/phrase/get", options);
@@ -57,15 +57,15 @@ const CaptchaPage = (props) => {
     } catch (error) {
       alert(error?.message || "Something went wrong");
     }
-  }, [shortcode, captchaSolved, router]);
+  }, [shortcode, solved, router]);
 
   // Already fetching initial data in getServerSideProps, so just
   // fetch the row if the captcha is solved to get the phrase
   useEffect(() => {
-    if (captchaSolved) {
+    if (solved) {
       fetchRow();
     }
-  }, [captchaSolved, fetchRow]);
+  }, [solved, fetchRow]);
 
   return (
     <>
@@ -81,21 +81,19 @@ const CaptchaPage = (props) => {
           <div
             className={styles.titleContainer}
             style={
-              captchaSolved
-                ? { backgroundColor: "#42DB75", color: "black" }
-                : {}
+              solved ? { backgroundColor: "#42DB75", color: "black" } : {}
             }>
             <div className={`${climateCrisis.className} ${styles.title}`}>
-              {captchaSolved
+              {solved
                 ? "Congrats! This is the phrase:"
                 : "Unlock the secret phrase"}
             </div>
           </div>
           <div className={styles.formContainer}>
-            {!captchaSolved ? (
+            {!solved ? (
               <>
                 <div className={styles.sans}>
-                  Solve the captcha below to reveal the secret phrase
+                  Solve the Captcha below to reveal the secret phrase
                   {name ? (
                     <>
                       {" "}
@@ -106,14 +104,14 @@ const CaptchaPage = (props) => {
                   )}
                   .
                 </div>
-                <ReCaptcha setSolved={setCaptchaSolved} />
+                <ReCaptcha setSolved={setSolved} />
               </>
             ) : (
               <>
                 <button
                   tabindex={0}
                   className={`${styles.linkContainer} ${
-                    captchaSolved && styles.solved
+                    solved && styles.solved
                   }`}
                   onClick={() => {
                     if (phrase) {
@@ -134,7 +132,7 @@ const CaptchaPage = (props) => {
                       <b>{name}</b>
                     </>
                   ) : (
-                    <> whoever sent this captcha to you</>
+                    <> whoever sent this Captcha to you</>
                   )}
                   .
                 </div>
@@ -144,11 +142,9 @@ const CaptchaPage = (props) => {
           <div
             className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
             style={
-              captchaSolved
-                ? { backgroundColor: "#42DB75", color: "black" }
-                : {}
+              solved ? { backgroundColor: "#42DB75", color: "black" } : {}
             }>
-            {!captchaSolved ? (
+            {!solved ? (
               <>
                 <AiFillLock /> {"LOCKED"}
               </>

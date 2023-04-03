@@ -21,7 +21,7 @@ const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 export default function Home() {
   const router = useRouter();
   const showToastRef = useRef();
-  const [captchaSolved, setCaptchaSolved] = useState(false);
+  const [solved, setSolved] = useState(false);
   const [createdPhraseCode, setCreatedPhraseCode] = useState(null);
   const [phraseValue, setPhraseValue] = useState("");
   const [nameValue, setNameValue] = useState("");
@@ -130,7 +130,7 @@ export default function Home() {
                   onValueChange={(value) => setExpiryValue(value[0])}
                 />
               </div>
-              <ReCaptcha setSolved={setCaptchaSolved} />
+              <ReCaptcha setSolved={setSolved} />
             </div>
           ) : (
             <div className={styles.formContainer}>
@@ -165,7 +165,7 @@ export default function Home() {
             <button
               className={`${climateCrisis.className} ${styles.submitButton}`}
               onClick={handleSubmit}
-              disabled={!captchaSolved}>
+              disabled={!solved}>
               <AiFillUnlock className={styles.unlock} />
               <AiFillLock className={styles.lock} />
               LOCK
