@@ -2,11 +2,11 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
+import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
+import { TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
-import { testCaptcha } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const CaptchaPage = (props) => {
@@ -30,13 +30,11 @@ const CaptchaPage = (props) => {
     setToastShown(true);
     showToastRef.current = setTimeout(() => {
       setToastShown(false);
-    }, 3000);
+    }, TOAST_TIMEOUT);
   };
 
   const fetchRow = useCallback(async () => {
     try {
-      const endpoint = "/api/phrase/get";
-
       const options = {
         method: "POST",
         headers: {
@@ -47,10 +45,8 @@ const CaptchaPage = (props) => {
           includePhrase: captchaSolved,
         }),
       };
-
-      const response = await fetch(endpoint, options);
+      const response = await fetch("/api/phrase/get", options);
       const result = await response.json();
-
       if (response.ok) {
         setPhrase(result.data.phrase);
         setName(result.data.name);
@@ -60,16 +56,16 @@ const CaptchaPage = (props) => {
       }
     } catch (error) {
       alert(error?.message || "Something went wrong");
-    } finally {
     }
   }, [shortcode, captchaSolved, router]);
 
-  // On initial load, do fetch with no phrase included
+  // Already fetching initial data in getServerSideProps, so just
+  // fetch the row if the captcha is solved to get the phrase
   useEffect(() => {
-    if (shortcode) {
+    if (captchaSolved) {
       fetchRow();
     }
-  }, [fetchRow, shortcode]);
+  }, [captchaSolved, fetchRow]);
 
   return (
     <>
@@ -95,7 +91,7 @@ const CaptchaPage = (props) => {
                 : "Unlock the secret phrase"}
             </div>
           </div>
-          <div className={styles.formContainer} style={{ opacity: 1 }}>
+          <div className={styles.formContainer}>
             {!captchaSolved ? (
               <>
                 <div className={styles.sans}>
@@ -110,13 +106,7 @@ const CaptchaPage = (props) => {
                   )}
                   .
                 </div>
-                <ReCAPTCHA
-                  asyncScriptOnLoad={() => console.log("load")}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={(code) =>
-                    testCaptcha(code, () => setCaptchaSolved(true))
-                  }
-                />
+                <ReCaptcha setSolved={setCaptchaSolved} />
               </>
             ) : (
               <>
@@ -209,7 +199,6 @@ export const getServerSideProps = async ({ params }) => {
     return {
       props: {},
     };
-  } finally {
   }
 };
 

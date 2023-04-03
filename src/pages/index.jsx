@@ -2,7 +2,6 @@ import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
 import {
   AiFillLock,
   AiFillUnlock,
@@ -10,12 +9,13 @@ import {
   AiOutlineRetweet,
 } from "react-icons/ai";
 import IconTextField from "../components/IconTextField";
+import ReCaptcha from "../components/ReCaptcha";
 import Slider from "../components/Slider";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
 import { EXPIRY_OPTIONS, MAX_INPUT_LENGTH, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
-import { randomSlug, testCaptcha } from "../utils";
+import { randomSlug } from "../utils";
 const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 export default function Home() {
@@ -130,12 +130,7 @@ export default function Home() {
                   onValueChange={(value) => setExpiryValue(value[0])}
                 />
               </div>
-              <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                onChange={(code) =>
-                  testCaptcha(code, () => setCaptchaSolved(true))
-                }
-              />
+              <ReCaptcha setSolved={setCaptchaSolved} />
             </div>
           ) : (
             <div className={styles.formContainer}>
