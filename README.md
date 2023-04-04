@@ -32,7 +32,6 @@ You need to set up a Supabase DB to store the data.
 
 ## TODO
 
-- SEO / image preview metadata
 - About page
 - Link to home page
 - Validate the Phrase and Name in phrase creation api
