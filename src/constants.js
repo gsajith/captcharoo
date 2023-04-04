@@ -1,3 +1,5 @@
+import localFont from "next/font/local";
+
 export const EXPIRY_OPTIONS = [
   { label: "1 hour", ms: 1000 * 60 * 60 },
   { label: "6 hours", ms: 1000 * 60 * 60 * 6 },
@@ -9,3 +11,11 @@ export const EXPIRY_OPTIONS = [
 ];
 export const TOAST_TIMEOUT = 5000;
 export const MAX_INPUT_LENGTH = 40;
+
+export const FONT_CLIMATE_CRISIS = localFont({
+  src: "./assets/ClimateCrisis.ttf",
+});
+export const FONT_OUTFIT = localFont({
+  src: "./assets/Outfit.ttf",
+  weight: "400 800",
+});

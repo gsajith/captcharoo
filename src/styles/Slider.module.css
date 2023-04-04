@@ -9,7 +9,7 @@
 }
 
 .sliderTrack {
-  background-color: rgba(0,0,0,.3);
+  background-color: var(--text);
   position: relative;
   flex-grow: 1;
   border-radius: 9999px;
@@ -18,7 +18,7 @@
 
 .sliderRange {
   position: absolute;
-  background-color: #FEBC38;
+  background-color: var(--primary);
   border-radius: 9999px;
   height: 100%;
 }
@@ -27,18 +27,18 @@
   display: block;
   width: 16px;
   height: 16px;
-  background-color: #FEBC38;
+  background-color: var(--primary);
   border: 1px solid black;
   border-radius: 16px;
 }
 
 .sliderThumb:hover {
-  background-color: #FEBC38;
+  background-color: var(--primary);
   outline: none;
-  box-shadow: 0 0 0 1px black;
+  box-shadow: 0 0 0 1px var(--text);
 }
 
 .sliderThumb:focus {
   outline: none;
-  box-shadow: 0 0 0 2px black;
+  box-shadow: 0 0 0 2px var(--text);
 }

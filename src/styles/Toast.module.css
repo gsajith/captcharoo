@@ -1,9 +1,9 @@
 .toastContainer {
   position: absolute;
-  background-color: white;
+  background-color: var(--paper);
   padding: 1.5rem;
   transition: bottom 500ms;
   font-weight: 500;
-  color: #222222;
+  color: var(--text);
   border-radius: 8px;
 }

@@ -1,14 +1,12 @@
-import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
+import Expired from "../components/Expired";
 import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
-import { TOAST_TIMEOUT } from "../constants";
+import { FONT_CLIMATE_CRISIS, FONT_OUTFIT, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
-import Expired from "../components/Expired";
-const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 const CaptchaPage = (props) => {
   const router = useRouter();
@@ -77,22 +75,18 @@ const CaptchaPage = (props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
+      <main className={`${styles.main} ${solved ? styles.solved : ""}`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           {props.expired ? (
             <Expired name={name} />
           ) : (
             <>
-              <div
-                className={styles.titleContainer}
-                style={
-                  solved ? { backgroundColor: "#42DB75", color: "black" } : {}
-                }>
-                <div className={`${climateCrisis.className} ${styles.title}`}>
+              <div className={styles.titleContainer}>
+                <div className={`${FONT_OUTFIT.className} ${styles.title}`}>
                   {solved
-                    ? "Congrats! This is the phrase:"
-                    : "Unlock the secret phrase"}
+                    ? "Congrats! The phrase is:"
+                    : "Reveal the secret phrase"}
                 </div>
               </div>
               <div className={styles.formContainer}>
@@ -116,9 +110,7 @@ const CaptchaPage = (props) => {
                   <>
                     <button
                       tabindex={0}
-                      className={`${styles.linkContainer} ${
-                        solved && styles.solved
-                      }`}
+                      className={`${styles.linkContainer}`}
                       onClick={() => {
                         if (phrase) {
                           navigator.clipboard.writeText(phrase);
@@ -146,10 +138,7 @@ const CaptchaPage = (props) => {
                 )}
               </div>
               <div
-                className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}
-                style={
-                  solved ? { backgroundColor: "#42DB75", color: "black" } : {}
-                }>
+                className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton} ${styles.noInteract}`}>
                 {!solved ? (
                   <>
                     <AiFillLock /> {"LOCKED"}

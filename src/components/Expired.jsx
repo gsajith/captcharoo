@@ -1,13 +1,12 @@
-import localFont from "next/font/local";
 import { AiFillExclamationCircle } from "react-icons/ai";
 import styles from "../styles/Home.module.css";
-const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
+import { FONT_CLIMATE_CRISIS, FONT_OUTFIT } from "../constants";
 
 const Expired = ({ name }) => {
   return (
     <>
       <div className={styles.titleContainer}>
-        <div className={`${climateCrisis.className} ${styles.title}`}>
+        <div className={`${FONT_OUTFIT.className} ${styles.title}`}>
           This captcha has expired.
         </div>
       </div>
@@ -26,7 +25,7 @@ const Expired = ({ name }) => {
         </div>
       </div>
       <div
-        className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>
+        className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton} ${styles.noInteract}`}>
         <AiFillExclamationCircle /> {"EXPIRED"}
       </div>
     </>

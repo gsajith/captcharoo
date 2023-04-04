@@ -1,4 +1,3 @@
-import localFont from "next/font/local";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -13,10 +12,15 @@ import ReCaptcha from "../components/ReCaptcha";
 import Slider from "../components/Slider";
 import TextField from "../components/TextField";
 import Toast from "../components/Toast";
-import { EXPIRY_OPTIONS, MAX_INPUT_LENGTH, TOAST_TIMEOUT } from "../constants";
+import {
+  EXPIRY_OPTIONS,
+  FONT_CLIMATE_CRISIS,
+  FONT_OUTFIT,
+  MAX_INPUT_LENGTH,
+  TOAST_TIMEOUT,
+} from "../constants";
 import styles from "../styles/Home.module.css";
 import { randomSlug } from "../utils";
-const climateCrisis = localFont({ src: "../ClimateCrisis.ttf" });
 
 export default function Home() {
   const router = useRouter();
@@ -84,19 +88,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />{" "}
       </Head>
-      <main className={styles.main}>
+      <main
+        className={`${styles.main} ${FONT_OUTFIT.className} ${
+          createdPhraseCode ? styles.locked : ""
+        }`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           <div className={styles.titleContainer}>
-            <div className={`${climateCrisis.className} ${styles.title}`}>
+            <div className={`${styles.title}`}>
               {!createdPhraseCode
-                ? "Store your secret phrase"
-                : "Your phrase is stored!"}
+                ? "Lock your secret phrase"
+                : "Your phrase is locked!"}
             </div>
           </div>
           {!createdPhraseCode ? (
             <div className={styles.formContainer}>
               <IconTextField
+                className={`${FONT_OUTFIT.className}`}
                 icon={
                   <AiOutlineRetweet onClick={() => generateRandomPhrase()} />
                 }
@@ -108,6 +116,7 @@ export default function Home() {
                 onChange={(e) => setPhraseValue(e.target.value)}
               />
               <TextField
+                className={`${FONT_OUTFIT.className}`}
                 name="name"
                 placeholder="Your name (optional)"
                 maxLength={MAX_INPUT_LENGTH}
@@ -158,13 +167,13 @@ export default function Home() {
           )}
           {createdPhraseCode ? (
             <div
-              className={`${climateCrisis.className} ${styles.submitButton} ${styles.noInteract}`}>
+              className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton} ${styles.noInteract}`}>
               <AiFillLock />
               LOCKED
             </div>
           ) : (
             <button
-              className={`${climateCrisis.className} ${styles.submitButton}`}
+              className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}
               onClick={handleSubmit}
               disabled={!solved}>
               <AiFillUnlock className={styles.unlock} />

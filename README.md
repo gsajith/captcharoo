@@ -34,5 +34,6 @@ You need to set up a Supabase DB to store the data.
 
 - SEO / image preview metadata
 - Error states
-- Try out https://ui.shadcn.com/
+- About page
+- Link to home page
 - Validate the Phrase and Name in phrase creation api

@@ -8,7 +8,6 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: #F19B6F;
   max-height: 100vh;
   overflow-y: hidden;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -18,4 +17,15 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+:root {
+  --background: #FFEDDF;
+  --primary: #FC7B40;
+  --primary-dark: #B75123;
+  --text: #2C2729;
+  --text-hover: #2C272955;
+  --paper: #FFFFFF;
+  --paint: #FFE7CF;
+  --shadow: 252, 123, 64;
 }

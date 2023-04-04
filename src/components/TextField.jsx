@@ -1,11 +1,11 @@
 import styles from "../styles/Home.module.css";
 
-const TextField = (props) => {
+const TextField = ({ className, ...otherProps }) => {
   return (
     <input
-      className={styles.textField}
+      className={`${styles.textField} ${className}`}
       type="text"
-      {...props}
+      {...otherProps}
       autoComplete="off"
     />
   );
