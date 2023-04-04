@@ -19,12 +19,18 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@GuamHat" />
         <meta name="twitter:site" content="@GuamHat" />
-        <meta name="twitter:image" content="/link_preview.png" />
+        <meta
+          name="twitter:image"
+          content="https://captcharoo.vercel.app/link_preview.png"
+        />
         <meta name="twitter:image:alt" content="Captcharoo" />
         <meta name="twitter:image:width" content="1200" />
         <meta name="twitter:image:height" content="630" />
         <meta name="twitter:domain" content="captcharoo.com" />
-        <meta name="og:image" content="/link_preview.png" />
+        <meta
+          name="og:image"
+          content="https://captcharoo.vercel.app/link_preview.png"
+        />
         <meta name="og:image:alt" content="Captcharoo" />
         <meta name="og:image:width" content="1200" />
         <meta name="og:image:height" content="630" />

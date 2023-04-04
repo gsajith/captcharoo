@@ -80,8 +80,14 @@ const CaptchaPage = (props) => {
         <meta name="twitter:title" content={title} />
         <meta name="description" content={description} />
         <meta name="og:description" content={description} />
-        <meta name="twitter:image" content="/share_preview.png" />
-        <meta name="og:image" content="/share_preview.png" />
+        <meta
+          name="twitter:image"
+          content="https://captcharoo.vercel.app/share_preview.png"
+        />
+        <meta
+          name="og:image"
+          content="https://captcharoo.vercel.app/share_preview.png"
+        />
       </Head>
       <main className={`${styles.main} ${solved ? styles.solved : ""}`}>
         <Toast message={toastMessage} shown={toastShown} />
