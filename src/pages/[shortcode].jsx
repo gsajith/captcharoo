@@ -15,9 +15,11 @@ const CaptchaPage = (props) => {
 
   const [phrase, setPhrase] = useState(null);
   const [name, setName] = useState(props.name);
-  const [solved, setSolved] = useState(false);
+  const [solvedCaptcha, setSolvedCaptcha] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastShown, setToastShown] = useState(false);
+
+  const showSolved = solvedCaptcha && phrase && phrase.length > 0;
 
   const title = `Captcharoo${
     props.name && props.name.length > 0 && " from " + props.name
@@ -46,7 +48,7 @@ const CaptchaPage = (props) => {
         },
         body: JSON.stringify({
           shortcode: shortcode,
-          includePhrase: solved,
+          includePhrase: solvedCaptcha,
         }),
       };
       const response = await fetch("/api/phrase/get", options);
@@ -62,15 +64,15 @@ const CaptchaPage = (props) => {
       // TODO: Handle error
       triggerToast(error?.message || "Something went wrong");
     }
-  }, [shortcode, solved, router]);
+  }, [shortcode, solvedCaptcha, router]);
 
   // Already fetching initial data in getServerSideProps, so just
   // fetch the row if the captcha is solved to get the phrase
   useEffect(() => {
-    if (solved) {
+    if (solvedCaptcha) {
       fetchRow();
     }
-  }, [solved, fetchRow]);
+  }, [solvedCaptcha, fetchRow]);
 
   return (
     <>
@@ -89,7 +91,7 @@ const CaptchaPage = (props) => {
           content="https://captcharoo.vercel.app/share_preview.png"
         />
       </Head>
-      <main className={`${styles.main} ${solved ? styles.solved : ""}`}>
+      <main className={`${styles.main} ${showSolved ? styles.solved : ""}`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           {props.expired ? (
@@ -98,13 +100,13 @@ const CaptchaPage = (props) => {
             <>
               <div className={styles.titleContainer}>
                 <div className={`${FONT_OUTFIT.className} ${styles.title}`}>
-                  {solved
+                  {showSolved
                     ? "Congrats! The phrase is:"
                     : "Reveal the secret phrase"}
                 </div>
               </div>
               <div className={styles.formContainer}>
-                {!solved ? (
+                {!showSolved ? (
                   <>
                     <div>
                       Solve the Captcha below to reveal the secret phrase
@@ -118,7 +120,7 @@ const CaptchaPage = (props) => {
                       )}
                       .
                     </div>
-                    <ReCaptcha setSolved={setSolved} />
+                    <ReCaptcha setSolved={setSolvedCaptcha} />
                   </>
                 ) : (
                   <>
@@ -153,7 +155,7 @@ const CaptchaPage = (props) => {
               </div>
               <div
                 className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton} ${styles.noInteract}`}>
-                {!solved ? (
+                {!showSolved ? (
                   <>
                     <AiFillLock /> {"LOCKED"}
                   </>
