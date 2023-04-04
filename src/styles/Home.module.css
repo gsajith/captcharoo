@@ -236,3 +236,8 @@
   font-weight: 700;
   color: var(--primary);
 }
+
+.captchaContainer {
+  min-height: 78px;
+  position: relative;
+}
