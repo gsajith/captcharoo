@@ -205,25 +205,6 @@
   opacity: 1;
 }
 
-
-.linkContainer.solved {
-  background-color: #DEFFE9;
-  color: #246A3B;
-  outline: 2px solid #7FD19B;
-}
-
-.linkContainer.solved:hover, .linkContainer.solved:focus {
-  outline: 2px solid #4C9A66;
-}
-
-.linkContainer.solved:hover *, .linkContainer.solved:focus * {
-  color: #226639;
-}
-
-.linkContainer.solved .linkButton {
-  color: #7FD19B;
-}
-
 .linkText {
   text-overflow: ellipsis;
   overflow: hidden;
