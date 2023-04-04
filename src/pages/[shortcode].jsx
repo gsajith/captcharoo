@@ -23,6 +23,11 @@ const CaptchaPage = (props) => {
     props.name && props.name.length > 0 && " from " + props.name
   }`;
 
+  const description =
+    props.name && props.name.length > 0
+      ? `${props.name} has sent you a Captcharoo!`
+      : "Someone has sent you a Captcharoo!";
+
   const triggerToast = (message) => {
     clearTimeout(showToastRef.current);
     setToastMessage(message);
@@ -71,9 +76,12 @@ const CaptchaPage = (props) => {
     <>
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Bot or not?" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content={title} />
+        <meta name="twitter:title" content={title} />
+        <meta name="description" content={description} />
+        <meta name="og:description" content={description} />
+        <meta name="twitter:image" content="/share_preview.png" />
+        <meta name="og:image" content="/share_preview.png" />
       </Head>
       <main className={`${styles.main} ${solved ? styles.solved : ""}`}>
         <Toast message={toastMessage} shown={toastShown} />
