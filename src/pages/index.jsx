@@ -175,7 +175,7 @@ export default function Home() {
             <button
               className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}
               onClick={handleSubmit}
-              disabled={!solved}>
+              disabled={!solved || phraseValue.length === 0}>
               <AiFillUnlock className={styles.unlock} />
               <AiFillLock className={styles.lock} />
               LOCK
