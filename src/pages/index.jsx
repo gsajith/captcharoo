@@ -161,7 +161,7 @@ export default function Home() {
           )}
           {createdPhraseCode ? (
             <div
-              className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton} ${styles.noInteract}`}>
+              className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}>
               <AiFillLock />
               LOCKED
             </div>
