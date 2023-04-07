@@ -7,12 +7,10 @@
   background: var(--background);
 }
 
-.main, .main *, .main>* {
-  transition:
-    color 300ms ease-in-out,
-    background 300ms ease-in-out,
-    background-color 300ms ease-in-out,
-    padding-left 150ms ease-in-out;
+.main,
+.main *,
+.main>* {
+  transition: color 300ms ease-in-out, background 300ms ease-in-out, background-color 300ms ease-in-out, padding-left 150ms ease-in-out;
 }
 
 .solved {
@@ -82,17 +80,20 @@
   padding: 0px 12px;
 }
 
-.textField::placeholder,.iconTextField>input::placeholder {
+.textField::placeholder,
+.iconTextField>input::placeholder {
   opacity: 0.6;
   font-weight: 400;
 }
 
-.textField:focus, .iconTextField:focus-within {
+.textField:focus,
+.iconTextField:focus-within {
   outline: none;
   border: 1.5px solid var(--primary) !important;
 }
 
-.textField:hover, .iconTextField:hover {
+.textField:hover,
+.iconTextField:hover {
   outline: none;
   border: 1.5px solid var(--text);
 }
@@ -191,11 +192,13 @@
   border: none;
 }
 
-.linkContainer:hover, .linkContainer:focus {
+.linkContainer:hover,
+.linkContainer:focus {
   outline: 2px solid var(--primary-dark);
 }
 
-.linkContainer:hover *, .linkContainer:focus * {
+.linkContainer:hover *,
+.linkContainer:focus * {
   color: var(--primary-dark);
   opacity: 1;
 }
