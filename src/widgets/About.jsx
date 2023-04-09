@@ -8,10 +8,9 @@ const About = () => {
       message={
         <>
           <p>
-            Captcharoo is the world&apos;s first{" "}
-            <strong>Proof of Humanity as a Service</strong> (PoHaaS). It is a
-            simple and secure way to verify that you&apos;re talking to a human
-            being and not a bot.
+            Captcharoo is a simple and secure way to verify that you&apos;re
+            talking to a human being and not a bot. It&apos;s the world&apos;s
+            first <strong>Proof of Humanity as a Service</strong> (PoHaaS).
           </p>
           <hr />
           <p>
@@ -20,20 +19,20 @@ const About = () => {
             </h2>
             <ol>
               <li>
-                On the <Link href="/">Home page</Link>, you can write a secret
-                phrase and <i>lock it</i> behind a Captcha.
+                On the home page, you can write a secret phrase and
+                &quot;lock&quot; it behind a Captcha.
               </li>
               <li>
                 Captcharoo will generate a unique link that you can share with
                 anyone you want to verify as a human.
               </li>
               <li>
-                When they click on the link, they&apos;ll be presented with the
+                When they open the link, they&apos;ll be presented with the
                 Captcha. Upon solving it, they can see your secret phrase.
               </li>
               <li>
                 If they say your secret phrase back to you, you can be
-                reasonably sure you&apos;re not speaking to a bot (until Captcha
+                reasonably sure you&apos;re speaking to a human (until Captcha
                 is defeated by the AI&apos;s 🥲).
               </li>
             </ol>
@@ -47,11 +46,15 @@ const About = () => {
             Any phrase you lock with Captcharoo will be encrypted and stored in
             our database. They won&apos;t be stored as plain text, but it would
             still be best to not write anything sensitive as your secret phrase.
+            <br />
+            <br />
+            No identifying information about you is stored, other than the name
+            field, if you chose to provide it.
           </p>
           <hr />
           <p>
             <h2>
-              <strong>Reasoning</strong>
+              <strong>Why I created Captcharoo</strong>
             </h2>
             <br />
             The inspiration for Captcharoo came when I saw articles about{" "}
@@ -78,10 +81,10 @@ const About = () => {
                 Vice article
               </a>
             </blockquote>
-            I&apos;m in favor of building tools which fight against the
-            AI-ificiation of our human interactions, so that&apos;s where
-            Captcharoo comes in. Next time you&apos;re chatting with someone on
-            a dating app, slide them a Captcharoo!
+            I&apos;m want to fight against the AI-ificiation of our human
+            interactions, so that&apos;s where Captcharoo comes in. Next time
+            you&apos;re chatting with someone on a dating app, slide them a
+            Captcharoo!
             <br />
             <br />
             Captcharoo was built by{" "}
