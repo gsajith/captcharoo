@@ -17,5 +17,5 @@ export const FONT_CLIMATE_CRISIS = localFont({
 });
 export const FONT_OUTFIT = localFont({
   src: "./assets/Outfit.ttf",
-  weight: "400 800",
+  weight: "100 300 400 500 800",
 });

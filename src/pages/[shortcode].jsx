@@ -101,7 +101,7 @@ const CaptchaPage = (props) => {
           {props.invalid && (
             <ErrorPage
               title={"Oops! This link is invalid"}
-              message={<div>Make your own Captcharoo <span style={{ fontWeight: 700, textDecoration: "underline" }}><Link href="/">here</Link></span>.</div>}
+              message={<div>Make your own Captcharoo <Link href="/">here</Link>.</div>}
               endText={"INVALID"} />)}
           {props.expired && (
             <ErrorPage
