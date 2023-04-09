@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-slider": "^1.1.1",
     "@supabase/supabase-js": "^2.12.1",
     "eslint": "8.36.0",
