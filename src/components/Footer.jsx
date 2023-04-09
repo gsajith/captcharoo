@@ -3,6 +3,7 @@ import { FONT_OUTFIT } from "../constants";
 import styles from "../styles/Footer.module.css";
 import Dialog from "./Dialog";
 import PrivacyPolicy from "../widgets/PrivacyPolicy";
+import About from "../widgets/About";
 
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
       <div className={`${FONT_OUTFIT.className} ${styles.footerContainer}`}>
         <div className={styles.footer}>
           <Link href="/">Home</Link>
-          <Dialog title="About" message="About text" buttonText="About" />
+          <About />
           <PrivacyPolicy />
           <a
             target="_blank"
