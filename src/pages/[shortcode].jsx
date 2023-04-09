@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
@@ -7,7 +8,6 @@ import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
 import { FONT_CLIMATE_CRISIS, FONT_OUTFIT, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
-import Link from "next/link";
 
 const CaptchaPage = (props) => {
   const router = useRouter();
@@ -24,8 +24,9 @@ const CaptchaPage = (props) => {
   const showSolved = solvedCaptcha && phrase && phrase.length > 0;
 
   // Custom title if Captcha creator entered their name
-  const title = `Captcharoo${props.name && props.name.length > 0 && " from " + props.name
-    }`;
+  const title = `Captcharoo${
+    props.name && props.name.length > 0 && " from " + props.name
+  }`;
 
   // Custom description if Captcha creator entered their name
   const description =
@@ -101,24 +102,34 @@ const CaptchaPage = (props) => {
           {props.invalid && (
             <ErrorPage
               title={"Oops! This link is invalid"}
-              message={<div>Make your own Captcharoo <Link href="/">here</Link>.</div>}
-              endText={"INVALID"} />)}
+              message={
+                <div>
+                  Make your own Captcharoo <Link href="/">here</Link>.
+                </div>
+              }
+              endText={"INVALID"}
+            />
+          )}
           {props.expired && (
             <ErrorPage
               title={"This captcha has expired"}
-              message={<div>
-                Please ask
-                {name ? (
-                  <>
-                    {" "}
-                    <b>{name} </b>
-                  </>
-                ) : (
-                  <> whoever sent this captcha to you </>
-                )}
-                to send a new one.
-              </div>}
-              endText={"EXPIRED"} />)}
+              message={
+                <div>
+                  Please ask
+                  {name ? (
+                    <>
+                      {" "}
+                      <b>{name} </b>
+                    </>
+                  ) : (
+                    <> whoever sent this captcha to you </>
+                  )}
+                  to send a new one.
+                </div>
+              }
+              endText={"EXPIRED"}
+            />
+          )}
           {!props.invalid && !props.expired && (
             <>
               <div className={styles.titleContainer}>
@@ -188,7 +199,8 @@ const CaptchaPage = (props) => {
                   </>
                 )}
               </div>
-            </>)}
+            </>
+          )}
         </div>
       </main>
     </>
@@ -219,8 +231,8 @@ export const getServerSideProps = async ({ params }) => {
 
     if (!response.ok) {
       return {
-        props: { invalid: true }
-      }
+        props: { invalid: true },
+      };
     }
 
     if (!result.data.inserted_at || !result.data.ttl) {

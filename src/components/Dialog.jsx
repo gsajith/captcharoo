@@ -1,7 +1,7 @@
-import { AiFillCloseCircle } from "react-icons/ai";
 import * as DialogBase from "@radix-ui/react-dialog";
-import styles from "../styles/Dialog.module.css";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { FONT_OUTFIT } from "../constants";
+import styles from "../styles/Dialog.module.css";
 
 const Dialog = ({ title, message, buttonText }) => {
   return (

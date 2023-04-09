@@ -10,10 +10,9 @@ const ErrorPage = ({ title, message, endText }) => {
           {title}
         </div>
       </div>
-      <div className={styles.formContainer}>
-        {message}
-      </div>
-      <div className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}>
+      <div className={styles.formContainer}>{message}</div>
+      <div
+        className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}>
         <AiFillExclamationCircle /> {endText}
       </div>
     </>
