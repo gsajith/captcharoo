@@ -9,7 +9,8 @@ const Dialog = ({ title, message, buttonText }) => {
       <DialogBase.Portal>
         <DialogBase.Overlay className={styles.dialogOverlay} />
         <DialogBase.Content className={styles.dialogContent}>
-          <DialogBase.Title className={styles.dialogTitle}>
+          <DialogBase.Title
+            className={`${styles.dialogTitle} ${FONT_OUTFIT.className}`}>
             <div className={styles.dialogTitleText}>{title}</div>
             <DialogBase.Close asChild>
               <button className={styles.dialogTitleButton} aria-label="Close">
@@ -17,7 +18,8 @@ const Dialog = ({ title, message, buttonText }) => {
               </button>
             </DialogBase.Close>
           </DialogBase.Title>
-          <DialogBase.Description className={styles.dialogDescription}>
+          <DialogBase.Description
+            className={`${styles.dialogDescription} ${FONT_OUTFIT.className}`}>
             {message}
           </DialogBase.Description>
         </DialogBase.Content>

@@ -118,3 +118,23 @@
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
+.dialogContent h1,
+.dialogContent h2,
+.dialogContent h3,
+.dialogContent h4 {
+  margin: 0px;
+}
+
+.dialogContent ul {
+  padding-left: 20px;
+  margin-top: 0px;
+}
+
+.dialogContent ul > li {
+  padding: 0px 10px;
+}
+
+.dialogContent strong {
+  font-weight: bold;
+}

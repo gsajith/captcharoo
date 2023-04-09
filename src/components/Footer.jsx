@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FONT_OUTFIT } from "../constants";
 import styles from "../styles/Footer.module.css";
 import Dialog from "./Dialog";
-import PrivacyPolicy from "./PrivacyPolicy";
+import PrivacyPolicy from "../widgets/PrivacyPolicy";
 
 const Footer = () => {
   return (

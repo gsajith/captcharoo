@@ -1,4 +1,4 @@
-import Dialog from "./Dialog";
+import Dialog from "../components/Dialog";
 
 const PrivacyPolicy = () => {
   return (
@@ -6,8 +6,9 @@ const PrivacyPolicy = () => {
       title="Privacy Policy"
       message={
         <>
-          <h1>Privacy Policy</h1>
-          <p>Last updated: April 09, 2023</p>
+          <p>
+            <i>Last updated: April 09, 2023</i>
+          </p>
           <p>
             This Privacy Policy describes Our policies and procedures on the
             collection, use and disclosure of Your information when You use the
