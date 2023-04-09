@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Footer from "../components/Footer";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }) {
@@ -43,7 +42,6 @@ export default function App({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
-      <Footer />
     </>
   );
 }

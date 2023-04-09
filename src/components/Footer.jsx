@@ -3,13 +3,25 @@ import { FONT_OUTFIT } from "../constants";
 import styles from "../styles/Footer.module.css";
 import About from "../widgets/About";
 import PrivacyPolicy from "../widgets/PrivacyPolicy";
+import { useRouter } from "next/router";
 
-const Footer = () => {
+const Footer = ({ homeCallback, locked }) => {
+  const router = useRouter();
   return (
     <>
       <div className={`${FONT_OUTFIT.className} ${styles.footerContainer}`}>
         <div className={styles.footer}>
-          <Link href="/">Home</Link>
+          {router.pathname === "/" && locked && (
+            <Link
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                homeCallback();
+              }}>
+              Home
+            </Link>
+          )}
+          {router.pathname !== "/" && <Link href="/">Home</Link>}
           <About />
           <PrivacyPolicy />
           <a

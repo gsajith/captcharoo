@@ -8,6 +8,7 @@ import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
 import { FONT_CLIMATE_CRISIS, FONT_OUTFIT, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
+import Footer from "../components/Footer";
 
 const CaptchaPage = (props) => {
   const router = useRouter();
@@ -203,6 +204,7 @@ const CaptchaPage = (props) => {
           )}
         </div>
       </main>
+      <Footer />
     </>
   );
 };

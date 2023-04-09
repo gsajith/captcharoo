@@ -20,6 +20,7 @@ import {
 } from "../constants";
 import styles from "../styles/Home.module.css";
 import { randomSlug } from "../utils";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const router = useRouter();
@@ -72,6 +73,14 @@ export default function Home() {
     showToastRef.current = setTimeout(() => {
       setToastShown(false);
     }, TOAST_TIMEOUT);
+  };
+
+  const resetPage = () => {
+    setSolved(false);
+    setPhraseValue("");
+    setNameValue("");
+    setExpiryValue(2);
+    setCreatedPhraseCode(false);
   };
 
   // Backup error state if invalid link hit
@@ -180,6 +189,8 @@ export default function Home() {
           )}
         </div>
       </main>
+
+      <Footer homeCallback={resetPage} locked={createdPhraseCode !== null} />
     </>
   );
 }
