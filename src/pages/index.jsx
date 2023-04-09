@@ -86,8 +86,9 @@ export default function Home() {
   return (
     <>
       <main
-        className={`${styles.main} ${FONT_OUTFIT.className} ${createdPhraseCode ? styles.locked : ""
-          }`}>
+        className={`${styles.main} ${FONT_OUTFIT.className} ${
+          createdPhraseCode ? styles.locked : ""
+        }`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           <div className={styles.titleContainer}>

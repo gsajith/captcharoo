@@ -7,4 +7,5 @@
   color: var(--text);
   border-radius: 8px;
   box-shadow: 15px 15px 30px 0px rgba(var(--shadow), 0.2);
+  z-index: 3;
 }
