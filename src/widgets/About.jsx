@@ -81,7 +81,7 @@ const About = () => {
                 Vice article
               </a>
             </blockquote>
-            I&apos;m want to fight against the AI-ificiation of our human
+            I&apos;m want to fight against the AI-ification of our human
             interactions, so that&apos;s where Captcharoo comes in. Next time
             you&apos;re chatting with someone on a dating app, slide them a
             Captcharoo!
