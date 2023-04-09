@@ -2,11 +2,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
-import Expired from "../components/Expired";
+import ErrorPage from "../components/ErrorPage";
 import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
 import { FONT_CLIMATE_CRISIS, FONT_OUTFIT, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 const CaptchaPage = (props) => {
   const router = useRouter();
@@ -19,12 +20,14 @@ const CaptchaPage = (props) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastShown, setToastShown] = useState(false);
 
+  // Flag for when Captcha has been solved and we've fetched the phrase from backend
   const showSolved = solvedCaptcha && phrase && phrase.length > 0;
 
-  const title = `Captcharoo${
-    props.name && props.name.length > 0 && " from " + props.name
-  }`;
+  // Custom title if Captcha creator entered their name
+  const title = `Captcharoo${props.name && props.name.length > 0 && " from " + props.name
+    }`;
 
+  // Custom description if Captcha creator entered their name
   const description =
     props.name && props.name.length > 0
       ? `${props.name} has sent you a Captcharoo!`
@@ -39,7 +42,8 @@ const CaptchaPage = (props) => {
     }, TOAST_TIMEOUT);
   };
 
-  const fetchRow = useCallback(async () => {
+  // Make API request to get locked phrase
+  const fetchPhrase = useCallback(async () => {
     try {
       const options = {
         method: "POST",
@@ -67,12 +71,12 @@ const CaptchaPage = (props) => {
   }, [shortcode, solvedCaptcha, router]);
 
   // Already fetching initial data in getServerSideProps, so just
-  // fetch the row if the captcha is solved to get the phrase
+  // fetch the phrase if the captcha is solved
   useEffect(() => {
     if (solvedCaptcha) {
-      fetchRow();
+      fetchPhrase();
     }
-  }, [solvedCaptcha, fetchRow]);
+  }, [solvedCaptcha, fetchPhrase]);
 
   return (
     <>
@@ -94,9 +98,28 @@ const CaptchaPage = (props) => {
       <main className={`${styles.main} ${showSolved ? styles.solved : ""}`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
-          {props.expired ? (
-            <Expired name={name} />
-          ) : (
+          {props.invalid && (
+            <ErrorPage
+              title={"Oops! This link is invalid"}
+              message={<div>Make your own Captcharoo <span style={{ fontWeight: 700, textDecoration: "underline" }}><Link href="/">here</Link></span>.</div>}
+              endText={"INVALID"} />)}
+          {props.expired && (
+            <ErrorPage
+              title={"This captcha has expired"}
+              message={<div>
+                Please ask
+                {name ? (
+                  <>
+                    {" "}
+                    <b>{name} </b>
+                  </>
+                ) : (
+                  <> whoever sent this captcha to you </>
+                )}
+                to send a new one.
+              </div>}
+              endText={"EXPIRED"} />)}
+          {!props.invalid && !props.expired && (
             <>
               <div className={styles.titleContainer}>
                 <div className={`${FONT_OUTFIT.className} ${styles.title}`}>
@@ -165,8 +188,7 @@ const CaptchaPage = (props) => {
                   </>
                 )}
               </div>
-            </>
-          )}
+            </>)}
         </div>
       </main>
     </>
@@ -195,6 +217,12 @@ export const getServerSideProps = async ({ params }) => {
     const response = await fetch(endpoint, options);
     const result = await response.json();
 
+    if (!response.ok) {
+      return {
+        props: { invalid: true }
+      }
+    }
+
     if (!result.data.inserted_at || !result.data.ttl) {
       return {
         props: { name: result.data.name, expired: true },
@@ -212,14 +240,14 @@ export const getServerSideProps = async ({ params }) => {
       return {
         props: { name: result.data.name },
       };
-    } else {
-      return {
-        props: {},
-      };
     }
+
+    return {
+      props: { invalid: true },
+    };
   } catch (error) {
     return {
-      props: {},
+      props: { invalid: true, error: error.message },
     };
   }
 };

@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { generateShortcode } from "../../../utils";
 import { MAX_INPUT_LENGTH } from "../../../constants";
+import { generateShortcode } from "../../../utils";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,

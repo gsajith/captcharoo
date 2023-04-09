@@ -1,8 +1,8 @@
-import ReCAPTCHA from "react-google-recaptcha";
-import { testCaptcha } from "../utils";
-import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import styles from "../styles/Home.module.css";
+import { testCaptcha } from "../utils";
 
 const ReCaptcha = ({ setSolved }) => {
   const [captchaLoading, setCaptchaLoading] = useState(true);

@@ -1,10 +1,10 @@
 import styles from "../styles/Home.module.css";
 
-const IconTextField = (props) => {
+const IconTextField = ({ icon, ...otherProps }) => {
   return (
     <div className={styles.iconTextField}>
-      <input type="text" {...props} autoComplete="off"></input>
-      {props.icon}
+      <input type="text" autoComplete="off" {...otherProps} ></input>
+      {icon}
     </div>
   );
 };

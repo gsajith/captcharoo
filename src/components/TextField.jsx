@@ -5,8 +5,8 @@ const TextField = ({ className, ...otherProps }) => {
     <input
       className={`${styles.textField} ${className}`}
       type="text"
-      {...otherProps}
       autoComplete="off"
+      {...otherProps}
     />
   );
 };

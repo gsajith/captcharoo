@@ -1,4 +1,3 @@
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -33,7 +32,8 @@ export default function Home() {
   const [toastShown, setToastShown] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  const handleSubmit = useCallback(
+  // Create the phrase in the backend
+  const lockPhrase = useCallback(
     async (event) => {
       event.preventDefault();
       try {
@@ -59,6 +59,7 @@ export default function Home() {
     [phraseValue, nameValue, expiryValue]
   );
 
+  // Clear window selection and set random phrase
   const generateRandomPhrase = useCallback(() => {
     window.getSelection().removeAllRanges();
     setPhraseValue(randomSlug());
@@ -73,6 +74,8 @@ export default function Home() {
     }, TOAST_TIMEOUT);
   };
 
+  // Backup error state if invalid link hit
+  // This should normally be handled in [shortcode].jsx
   useEffect(() => {
     if (router.query.error) {
       triggerToast("Invalid link provided.");
@@ -83,9 +86,8 @@ export default function Home() {
   return (
     <>
       <main
-        className={`${styles.main} ${FONT_OUTFIT.className} ${
-          createdPhraseCode ? styles.locked : ""
-        }`}>
+        className={`${styles.main} ${FONT_OUTFIT.className} ${createdPhraseCode ? styles.locked : ""
+          }`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           <div className={styles.titleContainer}>
@@ -168,7 +170,7 @@ export default function Home() {
           ) : (
             <button
               className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}
-              onClick={handleSubmit}
+              onClick={lockPhrase}
               disabled={!solved || phraseValue.length === 0}>
               <AiFillUnlock className={styles.unlock} />
               <AiFillLock className={styles.lock} />

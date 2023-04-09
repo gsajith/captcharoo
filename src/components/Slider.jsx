@@ -1,5 +1,5 @@
-import styles from "../styles/Slider.module.css";
 import * as Slider from "@radix-ui/react-slider";
+import styles from "../styles/Slider.module.css";
 
 const Component = (props) => {
   return (
