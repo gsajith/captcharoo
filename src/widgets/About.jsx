@@ -24,16 +24,12 @@ const About = () => {
                 phrase and <i>lock it</i> behind a Captcha.
               </li>
               <li>
-                Captcharoo will generate a unique link that you can share to
-                anyone you want to verify as human.
+                Captcharoo will generate a unique link that you can share with
+                anyone you want to verify as a human.
               </li>
               <li>
                 When they click on the link, they&apos;ll be presented with the
-                Captcha.
-              </li>
-              <li>
-                If they solve it correctly, they&apos;ll be able to see your
-                secret phrase.
+                Captcha. Upon solving it, they can see your secret phrase.
               </li>
               <li>
                 If they say your secret phrase back to you, you can be
@@ -65,7 +61,7 @@ const About = () => {
               rel="noopener noreferrer">
               CupidBot
             </a>
-            , an AI-powered bot which pretends to be a human on dating apps:
+            , an AI-powered bot that pretends to be a human on dating apps:
             <blockquote>
               <i>
                 The AI algorithm will “swipe on girls that are just your type
@@ -76,6 +72,7 @@ const About = () => {
               </i>{" "}
               —{" "}
               <a
+                target="_blank"
                 href="https://www.vice.com/en/article/m7bjqp/great-dating-apps-are-getting-more-hellish-thanks-to-ai-chatbots"
                 rel="noopener noreferrer">
                 Vice article
@@ -88,8 +85,13 @@ const About = () => {
             <br />
             <br />
             Captcharoo was built by{" "}
-            <a href="https://twitter.com/GuamHat">@GuamHat</a>, follow me on
-            Twitter.
+            <a
+              target="_blank"
+              href="https://twitter.com/GuamHat"
+              rel="noopener noreferrer">
+              @GuamHat
+            </a>
+            , follow me on Twitter.
           </p>
         </>
       }
