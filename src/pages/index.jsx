@@ -6,6 +6,7 @@ import {
   AiOutlineCopy,
   AiOutlineRetweet,
 } from "react-icons/ai";
+import Footer from "../components/Footer";
 import IconTextField from "../components/IconTextField";
 import ReCaptcha from "../components/ReCaptcha";
 import Slider from "../components/Slider";
@@ -20,7 +21,6 @@ import {
 } from "../constants";
 import styles from "../styles/Home.module.css";
 import { randomSlug } from "../utils";
-import Footer from "../components/Footer";
 
 export default function Home() {
   const router = useRouter();

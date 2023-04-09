@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiFillLock, AiFillUnlock, AiOutlineCopy } from "react-icons/ai";
 import ErrorPage from "../components/ErrorPage";
+import Footer from "../components/Footer";
 import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
 import { FONT_CLIMATE_CRISIS, FONT_OUTFIT, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
-import Footer from "../components/Footer";
 
 const CaptchaPage = (props) => {
   const router = useRouter();
