@@ -177,7 +177,7 @@ const CaptchaPage = (props) => {
                 )}
               </div>
               <div
-                className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton} ${styles.noInteract}`}>
+                className={`${FONT_CLIMATE_CRISIS.className} ${styles.submitButton}`}>
                 {!showSolved ? (
                   <>
                     <AiFillLock /> {"LOCKED"}
