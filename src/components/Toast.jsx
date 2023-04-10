@@ -11,7 +11,7 @@ const Toast = ({ message, shown }) => {
   return (
     <div
       className={styles.toastContainer}
-      style={{ bottom: shown ? "6rem" : "-200px" }}>
+      style={{ bottom: shown ? "6rem" : "-500px", opacity: shown ? 1 : 0 }}>
       {fullMessage}
     </div>
   );

@@ -79,7 +79,7 @@ export default function Home() {
     setPhraseValue("");
     setNameValue("");
     setExpiryValue(2);
-    setCreatedPhraseCode(false);
+    setCreatedPhraseCode(null);
   };
 
   // Backup error state if invalid link hit
