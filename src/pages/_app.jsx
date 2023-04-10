@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:site" content="@GuamHat" />
         <meta
           name="twitter:image"
-          content="https://captcharoo.vercel.app/link_preview.png"
+          content="https://captcharoo.com/link_preview.png"
         />
         <meta name="twitter:image:alt" content="Captcharoo" />
         <meta name="twitter:image:width" content="1200" />
@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:domain" content="captcharoo.com" />
         <meta
           name="og:image"
-          content="https://captcharoo.vercel.app/link_preview.png"
+          content="https://captcharoo.com/link_preview.png"
         />
         <meta name="og:image:alt" content="Captcharoo" />
         <meta name="og:image:width" content="1200" />

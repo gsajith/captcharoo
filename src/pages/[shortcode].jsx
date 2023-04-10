@@ -90,11 +90,11 @@ const CaptchaPage = (props) => {
         <meta name="og:description" content={description} />
         <meta
           name="twitter:image"
-          content="https://captcharoo.vercel.app/share_preview.png"
+          content="https://captcharoo.com/share_preview.png"
         />
         <meta
           name="og:image"
-          content="https://captcharoo.vercel.app/share_preview.png"
+          content="https://captcharoo.com/share_preview.png"
         />
       </Head>
       <main className={`${styles.main} ${showSolved ? styles.solved : ""}`}>
