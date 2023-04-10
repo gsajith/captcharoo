@@ -49,4 +49,3 @@ You need to set up a Supabase DB to store the data. Instructions tbd.
 ## TODO
 
 - Validate the Phrase and Name in phrase creation api
-- Encrypt phrase and name info on backend

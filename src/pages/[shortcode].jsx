@@ -60,7 +60,7 @@ const CaptchaPage = (props) => {
       const response = await fetch("/api/phrase/get", options);
       const result = await response.json();
       if (response.ok) {
-        setPhrase(result.data.phrase);
+        setPhrase(result.data.decrypted_phrase);
         setName(result.data.name);
       } else {
         // Redirect to home and show error
@@ -168,7 +168,7 @@ const CaptchaPage = (props) => {
                           triggerToast("Phrase copied!");
                         }
                       }}>
-                      <div>{phrase}</div>
+                      <div className={styles.linkText}>{phrase}</div>
                       <div className={styles.linkButton}>
                         <AiOutlineCopy />
                       </div>

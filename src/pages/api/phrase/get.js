@@ -23,8 +23,10 @@ export default async function handler(req, res) {
     // Get the row from the database
     try {
       let { data: phrases, error } = await supabase
-        .from("phrases")
-        .select("inserted_at, ttl, name" + (includePhrase ? ", phrase" : ""))
+        .from("decrypted_phrases")
+        .select(
+          "inserted_at, ttl, name" + (includePhrase ? ", decrypted_phrase" : "")
+        )
         .eq("shortcode", shortcode);
 
       // Invalid shortcode or malformed URL
