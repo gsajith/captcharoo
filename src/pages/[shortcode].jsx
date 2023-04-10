@@ -212,9 +212,7 @@ const CaptchaPage = (props) => {
 export const getServerSideProps = async ({ params }) => {
   try {
     const dev = process.env.NODE_ENV !== "production";
-    const server = dev
-      ? "http://localhost:3000"
-      : "https://captcharoo.vercel.app";
+    const server = dev ? "http://localhost:3000" : "https://captcharoo.com";
     const endpoint = server + "/api/phrase/get";
 
     const options = {
