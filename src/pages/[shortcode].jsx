@@ -104,7 +104,7 @@ const CaptchaPage = (props) => {
             <ErrorPage
               title={"Oops! This link is invalid"}
               message={
-                <div>
+                <div className={`${FONT_OUTFIT.className}`}>
                   Make your own Captcharoo <Link href="/">here</Link>.
                 </div>
               }
@@ -115,12 +115,12 @@ const CaptchaPage = (props) => {
             <ErrorPage
               title={"This captcha has expired"}
               message={
-                <div>
+                <div className={`${FONT_OUTFIT.className}`}>
                   Please ask
                   {name ? (
                     <>
                       {" "}
-                      <b>{name} </b>
+                      <span style={{ fontWeight: 600 }}>{name} </span>
                     </>
                   ) : (
                     <> whoever sent this captcha to you </>
@@ -140,7 +140,8 @@ const CaptchaPage = (props) => {
                     : "Reveal the secret phrase"}
                 </div>
               </div>
-              <div className={styles.formContainer}>
+              <div
+                className={`${styles.formContainer} ${FONT_OUTFIT.className} `}>
                 {!showSolved ? (
                   <>
                     <div>
@@ -148,7 +149,7 @@ const CaptchaPage = (props) => {
                       {name ? (
                         <>
                           {" "}
-                          from <b>{name}</b>
+                          from <span style={{ fontWeight: 600 }}>{name}</span>
                         </>
                       ) : (
                         <></>
@@ -173,12 +174,12 @@ const CaptchaPage = (props) => {
                         <AiOutlineCopy />
                       </div>
                     </button>
-                    <div className={styles.sans}>
+                    <div className={`${styles.sans} ${FONT_OUTFIT.className} `}>
                       Share this phrase back to
                       {name ? (
                         <>
                           {" "}
-                          <b>{name}</b>
+                          <span style={{ fontWeight: 600 }}>{name}</span>
                         </>
                       ) : (
                         <> whoever sent this Captcha to you</>
