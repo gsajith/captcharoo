@@ -1,6 +1,5 @@
 import * as DialogBase from "@radix-ui/react-dialog";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { FONT_OUTFIT } from "../constants";
 import styles from "../styles/Dialog.module.css";
 
 const Dialog = ({ title, message, buttonText }) => {
@@ -9,8 +8,7 @@ const Dialog = ({ title, message, buttonText }) => {
       <DialogBase.Portal>
         <DialogBase.Overlay className={styles.dialogOverlay} />
         <DialogBase.Content className={styles.dialogContent}>
-          <DialogBase.Title
-            className={`${styles.dialogTitle} ${FONT_OUTFIT.className}`}>
+          <DialogBase.Title className={styles.dialogTitle}>
             <div className={styles.dialogTitleText}>{title}</div>
             <DialogBase.Close asChild>
               <button className={styles.dialogTitleButton} aria-label="Close">
@@ -18,16 +16,13 @@ const Dialog = ({ title, message, buttonText }) => {
               </button>
             </DialogBase.Close>
           </DialogBase.Title>
-          <DialogBase.Description
-            className={`${styles.dialogDescription} ${FONT_OUTFIT.className}`}>
+          <DialogBase.Description className={styles.dialogDescription}>
             {message}
           </DialogBase.Description>
         </DialogBase.Content>
       </DialogBase.Portal>
       <DialogBase.Trigger asChild>
-        <button className={`${styles.fakeLink} ${FONT_OUTFIT.className}`}>
-          {buttonText}
-        </button>
+        <button className={styles.fakeLink}>{buttonText}</button>
       </DialogBase.Trigger>
     </DialogBase.Root>
   );

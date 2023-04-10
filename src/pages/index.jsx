@@ -15,7 +15,6 @@ import Toast from "../components/Toast";
 import {
   EXPIRY_OPTIONS,
   FONT_CLIMATE_CRISIS,
-  FONT_OUTFIT,
   MAX_INPUT_LENGTH,
   TOAST_TIMEOUT,
 } from "../constants";
@@ -95,9 +94,7 @@ export default function Home() {
   return (
     <>
       <main
-        className={`${styles.main} ${FONT_OUTFIT.className} ${
-          createdPhraseCode ? styles.locked : ""
-        }`}>
+        className={`${styles.main} ${createdPhraseCode ? styles.locked : ""}`}>
         <Toast message={toastMessage} shown={toastShown} />
         <div className={styles.homePageContainer}>
           <div className={styles.titleContainer}>
@@ -110,7 +107,6 @@ export default function Home() {
           {!createdPhraseCode ? (
             <div className={styles.formContainer}>
               <IconTextField
-                className={`${FONT_OUTFIT.className}`}
                 icon={
                   <AiOutlineRetweet onClick={() => generateRandomPhrase()} />
                 }
@@ -122,7 +118,6 @@ export default function Home() {
                 onChange={(e) => setPhraseValue(e.target.value)}
               />
               <TextField
-                className={`${FONT_OUTFIT.className}`}
                 name="name"
                 placeholder="Your name (optional)"
                 maxLength={MAX_INPUT_LENGTH}

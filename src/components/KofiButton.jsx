@@ -1,6 +1,5 @@
 import Image from "next/image";
 import styles from "../styles/KofiButton.module.css";
-import { FONT_OUTFIT } from "../constants";
 
 const KofiButton = ({
   message = "Buy me a coffee",
@@ -13,7 +12,7 @@ const KofiButton = ({
       target="_blank"
       rel="noopener noreferrer"
       href={`https://ko-fi.com/${username}`}
-      className={`${styles.buttonContainer} ${FONT_OUTFIT.className} ${className}`}
+      className={`${styles.buttonContainer} ${className}`}
       {...otherProps}>
       <Image
         src="https://storage.ko-fi.com/cdn/cup-border.png"

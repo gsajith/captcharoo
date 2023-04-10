@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FONT_OUTFIT } from "../constants";
 import styles from "../styles/Footer.module.css";
 import About from "../widgets/About";
 import PrivacyPolicy from "../widgets/PrivacyPolicy";
@@ -10,7 +9,7 @@ const Footer = ({ homeCallback, locked }) => {
   const router = useRouter();
   return (
     <>
-      <div className={`${FONT_OUTFIT.className} ${styles.footerContainer}`}>
+      <div className={styles.footerContainer}>
         <div className={styles.footer}>
           {router.pathname === "/" && locked && (
             <Link

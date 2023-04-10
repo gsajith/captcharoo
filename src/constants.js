@@ -15,7 +15,3 @@ export const MAX_INPUT_LENGTH = 40;
 export const FONT_CLIMATE_CRISIS = localFont({
   src: "./assets/ClimateCrisis.ttf",
 });
-export const FONT_OUTFIT = localFont({
-  src: "./assets/Outfit.ttf",
-  weight: "100 300 400 500 800",
-});

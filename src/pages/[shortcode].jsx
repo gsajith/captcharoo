@@ -7,7 +7,7 @@ import ErrorPage from "../components/ErrorPage";
 import Footer from "../components/Footer";
 import ReCaptcha from "../components/ReCaptcha";
 import Toast from "../components/Toast";
-import { FONT_CLIMATE_CRISIS, FONT_OUTFIT, TOAST_TIMEOUT } from "../constants";
+import { FONT_CLIMATE_CRISIS, TOAST_TIMEOUT } from "../constants";
 import styles from "../styles/Home.module.css";
 
 const CaptchaPage = (props) => {
@@ -104,7 +104,7 @@ const CaptchaPage = (props) => {
             <ErrorPage
               title={"Oops! This link is invalid"}
               message={
-                <div className={`${FONT_OUTFIT.className}`}>
+                <div>
                   Make your own Captcharoo <Link href="/">here</Link>.
                 </div>
               }
@@ -115,7 +115,7 @@ const CaptchaPage = (props) => {
             <ErrorPage
               title={"This captcha has expired"}
               message={
-                <div className={`${FONT_OUTFIT.className}`}>
+                <div>
                   Please ask
                   {name ? (
                     <>
@@ -134,14 +134,13 @@ const CaptchaPage = (props) => {
           {!props.invalid && !props.expired && (
             <>
               <div className={styles.titleContainer}>
-                <div className={`${FONT_OUTFIT.className} ${styles.title}`}>
+                <div className={styles.title}>
                   {showSolved
                     ? "Congrats! The phrase is:"
                     : "Reveal the secret phrase"}
                 </div>
               </div>
-              <div
-                className={`${styles.formContainer} ${FONT_OUTFIT.className} `}>
+              <div className={styles.formContainer}>
                 {!showSolved ? (
                   <>
                     <div>
@@ -174,7 +173,7 @@ const CaptchaPage = (props) => {
                         <AiOutlineCopy />
                       </div>
                     </button>
-                    <div className={`${styles.sans} ${FONT_OUTFIT.className} `}>
+                    <div className={styles.sans}>
                       Share this phrase back to
                       {name ? (
                         <>
