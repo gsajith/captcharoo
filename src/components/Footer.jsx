@@ -4,6 +4,7 @@ import { FONT_OUTFIT } from "../constants";
 import styles from "../styles/Footer.module.css";
 import About from "../widgets/About";
 import PrivacyPolicy from "../widgets/PrivacyPolicy";
+import KofiButton from "./KofiButton";
 
 const Footer = ({ homeCallback, locked }) => {
   const router = useRouter();
@@ -30,6 +31,7 @@ const Footer = ({ homeCallback, locked }) => {
             rel="noopener noreferrer">
             Github
           </a>
+          {/* <KofiButton /> */}
           <div>
             <span className={styles.footerText}>Made with 😡 by </span>
             <a
