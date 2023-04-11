@@ -20,6 +20,7 @@ import {
 } from "../constants";
 import styles from "../styles/Home.module.css";
 import { randomSlug } from "../utils";
+import Link from "next/link";
 
 export default function Home() {
   const router = useRouter();
@@ -183,6 +184,11 @@ export default function Home() {
             </button>
           )}
         </div>
+        {createdPhraseCode !== null && (
+          <div style={{ marginTop: 16, cursor: "pointer", color: "var(--primary)" }}>
+            <a onClick={resetPage}>&larr; Go back</a>
+          </div>
+        )}
       </main>
 
       <Footer homeCallback={resetPage} locked={createdPhraseCode !== null} />

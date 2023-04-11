@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styles from "../styles/Footer.module.css";
 import About from "../widgets/About";
 import PrivacyPolicy from "../widgets/PrivacyPolicy";
@@ -8,22 +7,20 @@ import SvgLogoComponent from "../assets/SvgLogoComponent";
 import homeStyles from "../styles/Home.module.css";
 
 const Footer = ({ homeCallback, locked, solved }) => {
-  const router = useRouter();
   return (
     <div className={`${styles.footerContainer} ${locked ? homeStyles.locked : ""} ${solved ? homeStyles.solved : ""}`}>
       <SvgLogoComponent style={{ marginBottom: 12, fill: "var(--primary)" }} />
       <div className={styles.footer}>
-        {router.pathname === "/" && locked && (
-          <Link
-            href="/"
-            onClick={(e) => {
+        <Link
+          href="/"
+          onClick={(e) => {
+            if (homeCallback) {
               e.preventDefault();
               homeCallback();
-            }}>
-            Home
-          </Link>
-        )}
-        {router.pathname !== "/" && <Link href="/">Home</Link>}
+            }
+          }}>
+          Home
+        </Link>
         <About />
         <PrivacyPolicy />
         <a

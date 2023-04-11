@@ -202,6 +202,10 @@ const CaptchaPage = (props) => {
             </>
           )}
         </div>
+
+        <div style={{ marginTop: 16, cursor: "pointer", color: "var(--primary)" }}>
+          <Link href="/">&larr; Back to home</Link>
+        </div>
       </main>
       <Footer solved={showSolved} />
     </>
