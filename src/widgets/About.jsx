@@ -1,4 +1,4 @@
-import Link from "next/link";
+import SvgLogoComponent from "../assets/SvgLogoComponent";
 import Dialog from "../components/Dialog";
 
 const About = () => {
@@ -7,11 +7,14 @@ const About = () => {
       title="About Captcharoo"
       message={
         <>
-          <p>
-            Captcharoo is a simple and secure way to verify that you&apos;re
-            talking to a human being and not a bot. It&apos;s the world&apos;s
-            first <strong>Proof of Humanity as a Service</strong> (PoHaaS).
-          </p>
+          <div style={{ display: "flex", gap: "12px", alignItems: 'center' }}>
+            <SvgLogoComponent style={{ fill: "var(--primary)", marginRight: 8 }} />
+            <p style={{ maxWidth: "calc(100% - 72px)" }}>
+              Captcharoo is a simple and secure way to verify that you&apos;re
+              talking to a human being and not a bot. It&apos;s the world&apos;s
+              first <strong>Proof of Humanity as a Service</strong> (PoHaaS).
+            </p>
+          </div>
           <hr />
           <p>
             <h2>

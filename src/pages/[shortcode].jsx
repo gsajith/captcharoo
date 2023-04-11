@@ -25,9 +25,8 @@ const CaptchaPage = (props) => {
   const showSolved = solvedCaptcha && phrase && phrase.length > 0;
 
   // Custom title if Captcha creator entered their name
-  const title = `Captcharoo${
-    props.name && props.name.length > 0 && " from " + props.name
-  }`;
+  const title = `Captcharoo${props.name && props.name.length > 0 && " from " + props.name
+    }`;
 
   // Custom description if Captcha creator entered their name
   const description =
@@ -204,7 +203,7 @@ const CaptchaPage = (props) => {
           )}
         </div>
       </main>
-      <Footer />
+      <Footer solved={showSolved} />
     </>
   );
 };
