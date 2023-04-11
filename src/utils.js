@@ -34,9 +34,9 @@ export const testCaptcha = async (captchaCode, callback) => {
 };
 
 export const randomSlug = () => {
-  return generateSlug(2, {
+  return generateSlug(3, {
     format: "kebab",
-    partsOfSpeech: ["adjective", "noun"],
+    partsOfSpeech: ["adjective", "adjective", "noun"],
     categories: {
       adjective: [
         "condition",
@@ -51,7 +51,7 @@ export const randomSlug = () => {
         "shapes",
         "size",
       ],
-      noun: ["animals", "food"],
+      noun: ["food", "animals"]
     },
   });
 };
