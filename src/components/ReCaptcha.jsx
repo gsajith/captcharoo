@@ -6,9 +6,10 @@ import { testCaptcha } from "../utils";
 
 const ReCaptcha = ({ setSolved }) => {
   const [captchaLoading, setCaptchaLoading] = useState(true);
-  if (process.env.NODE_ENV === "development") {
-    return <button onClick={() => setSolved(true)}>Bypass Captcha</button>;
-  }
+  const [validating, setValidating] = useState(false);
+  // if (process.env.NODE_ENV === "development") {
+  //   return <button onClick={() => setSolved(true)}>Bypass Captcha</button>;
+  // }
   return (
     <div className={styles.captchaContainer}>
       {captchaLoading && (
@@ -25,12 +26,23 @@ const ReCaptcha = ({ setSolved }) => {
           }}
         />
       )}
+      {validating && (
+        <div className={styles.captchaValidation}>
+          Validating...
+        </div>
+      )}
       <ReCAPTCHA
         asyncScriptOnLoad={() =>
           setTimeout(() => setCaptchaLoading(false), 250)
         }
         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-        onChange={(code) => testCaptcha(code, () => setSolved(true))}
+        onChange={(code) => {
+          setValidating(true);
+          testCaptcha(code, () => {
+            setSolved(true);
+            setValidating(false);
+          });
+        }}
       />
     </div>
   );
