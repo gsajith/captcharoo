@@ -5,7 +5,7 @@
   align-items: center;
   min-height: 100vh;
   background: var(--background);
-  margin-bottom: 200px;
+  padding-bottom: 200px;
 }
 
 .main,
