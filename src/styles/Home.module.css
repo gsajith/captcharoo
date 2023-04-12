@@ -5,6 +5,7 @@
   align-items: center;
   min-height: 100vh;
   background: var(--background);
+  margin-bottom: 200px;
 }
 
 .main,
@@ -43,7 +44,6 @@
   box-shadow: 15px 15px 30px 0px rgba(var(--shadow), 0.3);
   border: 2px solid var(--primary);
   overflow: hidden;
-  margin-bottom: 20vh;
 }
 
 .formContainer {

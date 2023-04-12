@@ -7,9 +7,9 @@ import { testCaptcha } from "../utils";
 const ReCaptcha = ({ setSolved }) => {
   const [captchaLoading, setCaptchaLoading] = useState(true);
   const [validating, setValidating] = useState(false);
-  // if (process.env.NODE_ENV === "development") {
-  //   return <button onClick={() => setSolved(true)}>Bypass Captcha</button>;
-  // }
+  if (process.env.NODE_ENV === "development") {
+    return <button onClick={() => setSolved(true)}>Bypass Captcha</button>;
+  }
   return (
     <div className={styles.captchaContainer}>
       {captchaLoading && (
