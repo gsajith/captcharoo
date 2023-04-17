@@ -1,5 +1,5 @@
 # Captcharoo — bot checker
-
+![](https://i.imgur.com/nXrgkp3.png)
 Captcharoo is a simple and secure way to verify that you're talking to a human being and not a bot. It's the world's first **Proof of Humanity as a Service** (PoHaaS).
 
 ## Background
@@ -16,10 +16,13 @@ Captcharoo was built by [@GuamHat](https://twitter.com/GuamHat), follow me on Tw
 
 ## How it works
 
-1.  On the home page, you can write a secret phrase and "lock" it behind a Captcha.
-2.  Captcharoo will generate a unique link that you can share with anyone you want to verify as a human.
-3.  When they open the link, they'll be presented with the Captcha. Upon solving it, they can see your secret phrase.
-4.  If they say your secret phrase back to you, you can be reasonably sure you're speaking to a human (until Captcha is defeated by the AI's 🥲).
+> 🔐  &nbsp;On the home page, you can write a secret phrase and "lock" it behind a Captcha.
+
+> 💬  &nbsp;Captcharoo will generate a unique link that you can share with anyone you want to verify as a human.
+
+> 👩‍💻  &nbsp;When they open the link, they'll be presented with the Captcha. Upon solving it, they can see your secret phrase.
+
+> ✅  &nbsp;If they say your secret phrase back to you, you can be reasonably sure you're speaking to a human (until Captcha is defeated by the AI's 🥲).
 
 ## Technical Reasoning
 
