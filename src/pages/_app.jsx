@@ -10,11 +10,11 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:title" content="Captcharoo — Bot or not?" />
         <meta
           name="description"
-          content="Lock a secret phrase behind a passcode and have suspected bots try to fill it out!"
+          content="Lock a secret phrase behind a Captcha and have suspected bots try to fill it out!"
         />
         <meta
           name="og:description"
-          content="Lock a secret phrase behind a passcode and have suspected bots try to fill it out!"
+          content="Lock a secret phrase behind a Captcha and have suspected bots try to fill it out!"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@GuamHat" />
