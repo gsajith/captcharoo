@@ -205,7 +205,8 @@ const CaptchaPage = (props) => {
           )}
         </div>
 
-        <div style={{ marginTop: 16, cursor: "pointer", color: "var(--primary)" }}>
+        <div
+          style={{ marginTop: 16, cursor: "pointer", color: "var(--primary)" }}>
           <Link href="/">&larr; Back to home</Link>
         </div>
       </main>
@@ -214,11 +215,11 @@ const CaptchaPage = (props) => {
   );
 };
 
-export const getServerSideProps = async ({ params }) => {
+export const getServerSideProps = async ({ params, req }) => {
   try {
-    const dev = process.env.NODE_ENV !== "production";
-    const server = dev ? "http://localhost:3000" : "https://captcharoo.com";
-    const endpoint = server + "/api/phrase/get";
+    const protocol = req.headers["x-forwarded-proto"] || "http";
+    const host = req.headers["x-forwarded-host"] || req.headers.host;
+    const endpoint = `${protocol}://${host}/api/phrase/get`;
 
     const options = {
       method: "POST",
