@@ -26,5 +26,8 @@
   },
   "devDependencies": {
     "@types/react-google-recaptcha": "^2.1.5"
+  },
+  "engines": {
+    "node": ">=20.x"
   }
 }

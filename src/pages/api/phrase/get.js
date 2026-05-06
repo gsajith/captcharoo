@@ -8,8 +8,6 @@ const supabase = createClient(
 export default async function handler(req, res) {
   const { body, method } = req;
 
-  console.log("called-----");
-
   if (method === "POST") {
     // Get the shortcode of this row
     const { shortcode, includePhrase } = body;
@@ -24,19 +22,12 @@ export default async function handler(req, res) {
 
     // Get the row from the database
     try {
-      const query =
-        "inserted_at, ttl, name" + (includePhrase ? ", decrypted_phrase" : "");
-      console.log(
-        `[GET] querying decrypted_phrases where shortcode=${shortcode}, select=${query}`,
-      );
       let { data: phrases, error } = await supabase
         .from("decrypted_phrases")
-        .select(query)
+        .select(
+          "inserted_at, ttl, name" + (includePhrase ? ", decrypted_phrase" : "")
+        )
         .eq("shortcode", shortcode);
-
-      console.log(
-        `[GET] result: data=${JSON.stringify(phrases)}, error=${JSON.stringify(error)}`,
-      );
 
       // Invalid shortcode or malformed URL
       if (!phrases || typeof phrases === "undefined" || phrases.length === 0) {
