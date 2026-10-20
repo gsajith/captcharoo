@@ -93,9 +93,9 @@ const About = () => {
             Captcharoo was built by{" "}
             <a
               target="_blank"
-              href="https://twitter.com/GuamHat"
+              href="https://twitter.com/__gauth"
               rel="noopener noreferrer">
-              @GuamHat
+              @__gauth
             </a>
             , follow me on Twitter.
           </p>

@@ -34,9 +34,9 @@ const Footer = ({ homeCallback, locked, solved }) => {
           <span className={styles.footerText}>Made with 😡 by </span>
           <a
             target="_blank"
-            href="https://twitter.com/GuamHat"
+            href="https://twitter.com/__gauth"
             rel="noopener noreferrer">
-            @GuamHat
+            @__gauth
           </a>
         </div>
       </div>

@@ -18,8 +18,8 @@ export default function App({ Component, pageProps }) {
           content="Lock a secret phrase behind a Captcha and have suspected bots try to fill it out!"
         />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="@GuamHat" />
-        <meta name="twitter:site" content="@GuamHat" />
+        <meta name="twitter:creator" content="@__gauth" />
+        <meta name="twitter:site" content="@__gauth" />
         <meta
           name="twitter:image"
           content="https://captcharoo.com/link_preview.png"

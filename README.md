@@ -12,7 +12,7 @@ The inspiration for Captcharoo came when I saw articles about [CupidBot](https:/
 
 I'm in favor of building tools that fight against the AI-ification of our human interactions, so that's where Captcharoo comes in. Next time you're chatting with someone on a dating app, slide them a Captcharoo!
 
-Captcharoo was built by [@GuamHat](https://twitter.com/GuamHat), follow me on Twitter.
+Captcharoo was built by [@__gauth](https://twitter.com/__gauth), follow me on Twitter.
 
 ## How it works
 

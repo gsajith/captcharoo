@@ -511,10 +511,10 @@ const PrivacyPolicy = () => {
             <li>
               By visiting this page on our website:{" "}
               <a
-                href="https://twitter.com/guamhat"
+                href="https://twitter.com/__gauth"
                 rel="external nofollow noopener"
                 target="_blank">
-                https://twitter.com/guamhat
+                https://twitter.com/__gauth
               </a>
             </li>
           </ul>
